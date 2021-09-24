@@ -1,4 +1,15 @@
 <!-- Main Sidebar Container -->
+<script>
+  $(document).on('click', '#linkID1', function(e){
+      e.preventDefault();
+
+      if(window.location.href='/admin/CRUDvet'){
+        
+      $('#linkID1').addClass('active');
+      }
+  });
+</script>
+<link rel="stylesheet" href="/styles.css">
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/admin/index/home" class="brand-link">
@@ -39,7 +50,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                <li class="nav-item">
-                <a href="/admin/home-dashboard" class="nav-link">
+                <a href="/admin/home-dashboard" id="linkID" class="nav-link">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>
                    Dashboard
@@ -53,7 +64,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                <li class="nav-item">
-                <a href="/admin/CRUDvet" class="nav-link">
+                <a href="/admin/CRUDvet" id="linkID1" class="nav-link">
                   <i class="nav-icon fas fa-ambulance"></i>
                   <p>
                    Veterinarians
@@ -63,7 +74,7 @@
               
 
               <li class="nav-item">
-                <a href="/admin/CRUDpet" class="nav-link">
+                <a href="/admin/CRUDpet" id="linkID2" class="nav-link">
                   <i class="nav-icon fas fa-paw"></i>
                   <p>
                    Pets
@@ -72,7 +83,7 @@
               </li>
 
               <li class="nav-item">
-                <a href="/admin/CRUDpettype" class="nav-link">
+                <a href="/admin/CRUDpettype" id="linkID3" class="nav-link">
                   <i class="nav-icon fas fa-paw"></i>
                   <p>
                    Pet Type
@@ -81,7 +92,7 @@
               </li>
 
               <li class="nav-item">
-                <a href="/admin/CRUDpetbreed" class="nav-link">
+                <a href="/admin/CRUDpetbreed" id="linkID4" class="nav-link">
                   <i class="nav-icon fas fa-paw"></i>
                   <p>
                    Pet Breed
@@ -90,7 +101,7 @@
               </li>
 
               <li class="nav-item">
-                <a href="/admin/CRUDcustomers" class="nav-link">
+                <a href="/admin/CRUDcustomers" id="linkID5" class="nav-link">
                   <i class="nav-icon fas fa-user"></i>
                   <p>
                    Customers
@@ -99,7 +110,7 @@
               </li>
 
               <li class="nav-item">
-                <a href="/admin/CRUDclinic" class="nav-link">
+                <a href="/admin/CRUDclinic" id="linkID6" class="nav-link">
                   <i class="nav-icon fas fa-clinic-medical"></i>
                   <p>
                    Clinic
@@ -107,7 +118,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/admin/CRUDusers" class="nav-link">
+                <a href="/admin/CRUDusers" id="linkID7" class="nav-link">
                   <i class="nav-icon fas fa-users"></i>
                   <p>
                    Users
@@ -119,7 +130,7 @@
   
               <li class="nav-item">
                 <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <form action="" method="post" class="d-none" id="logout-form">@csrf</form>
+                <form action="{{ route('admin.logout') }}" method="post" class="d-none" id="logout-form">@csrf</form>
                 <i class="nav-icon fas fa-sign-out-alt "></i>
                   <p>
                    Logout

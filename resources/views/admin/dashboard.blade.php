@@ -2,7 +2,7 @@
 
 @section('content')
 
-
+@include('sweet::alert')
 
 
   <!-- Content Wrapper. Contains page content -->

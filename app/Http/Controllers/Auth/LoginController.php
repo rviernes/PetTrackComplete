@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Providers\SweetAlertServiceProvider;
 
 class LoginController extends Controller
 {
@@ -26,7 +27,17 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
+
+    protected function redirectTo(){
+        if(auth()->user()->usertype == 'admin'){
+            return 'admin/dashboard';
+        }elseif (auth()->user()->usertype == 'customer') {
+            return 'user/dashboard';
+        } else{
+            return 'home';
+        }
+    }
 
     /**
      * Create a new controller instance.
