@@ -1,7 +1,7 @@
-
-@extends('layoutsvet.app')
+@extends('layoutsVet.app')
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="/styles.css">
 
 <script src="https://jqueryvalidation.org/files/lib/jquery.js"></script>
 <script src="https://jqueryvalidation.org/files/lib/jquery-1.11.1.js"></script>
@@ -26,8 +26,8 @@
                 user_mobile:{
                     required: true,
                     number: true,
-                    minlength: 11,
-                    maxlength: 11
+                    minlength: 9,
+                    maxlength: 13
                 },
                 user_email: {
                     required: true,
@@ -45,19 +45,18 @@
                 customer_mobile: {
                     required: true,
                     number: true,
-                    minlength: 11,
-                    maxlength: 11
+                    minlength: 9,
+                    maxlength: 13
                 },
                 customer_tel: {
-                    required: true
+                    required: true,
+                    minlength: 9,
+                    maxlength: 13
                 },
                 customer_birthday: {
                     required: true
                 },
                 customer_gender: {
-                    required: true
-                },
-                customer_blk: {
                     required: true
                 },
                 customer_street: {
@@ -85,9 +84,7 @@
 
                 }
             },
-            messages: {
-                user_name: {
-                    required: "First name is required"
+                    maxlength: "Telephone number must be of 11 digits"
          
                 },
                 user_password: {
@@ -95,11 +92,12 @@
                 },
                 user_mobile: {
                     required: "Phone number is required",
-                    minlength: "Phone number must be of 11 digits"
+                    minlength: "Min. digits: 9",
+                    maxlength: "Max digits: 13"
                 },
                 user_email: {
                     required: "Email is required",
-                    email: "Email must be a valid email address"
+                    email: "Input valid email address"
                 },
                 customer_fname: {
                     required: "first name is required"
@@ -112,20 +110,20 @@
                 },
                 customer_mobile: {
                     required: "Phone number is required",
-                    minlength: "Phone number must be of 11 digits"
+                    minlength:  "Min. digits: 9",
+                    maxlength: "Max digits: 13"
+
                 },
                 customer_tel: {
                     required: "Address is required",
-                    maxlength: "Telephone number must be of 11 digits"
+                    minlength:  "Min. digits: 9",
+                    maxlength: "Max digits: 13"
                 },
                 customer_gender: {
                     required: "Gender is required"
                 },
                 customer_birthday: {
                     required: "Birthday is required"
-                },
-                customer_blk: {
-                    required: "Blk is required"
                 },
                 customer_street: {
                     required: "Street is required"
@@ -140,7 +138,8 @@
                     required: "City is required"
                 },
                 customer_zip: {
-                    required: "Zip Code is required"
+                    required: "Zip Code is required",
+                    number: "Input digits"
                 },
                 isActive: {
                     required: "Status is required"
@@ -159,32 +158,18 @@
 
 @section('content')
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-        
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
+    <br>
     <!-- /.content-header -->
 
    
 <!-- Default box -->
 <div class="card">
-    <div class="card-header">
-        <a class="btn btn-error btn-sm" href="/veterinary/viewvetcustomer">
+        <a class="btn btn-error btn-sm" href="/veterinary/customers" style="text-align: left;">
             <i class="fas fa-arrow-left">
             </i>
             Return
         </a>
-      <h3 class="header">Register Customer</h3>
+      <h3 class="header" id="pet_name_id">Register Customer</h3>
       <br>
      
       @if(Session::has('existing')) 
@@ -194,8 +179,8 @@
      @endif 
      
     <!-- Main content -->
-    <form class="cmxform" action="{{ route('vet.addcustomer') }}" method="POST" id="addForm">
-@csrf
+    <form class="cmxform" action="{{ route('veterinary.addcustomer') }}" method="POST" id="addForm">
+    @csrf
     <table class="table table-striped table-hover">
   <thead>
     <tr>
@@ -205,27 +190,27 @@
         <td>
             <div class="form-group" style="">
                 <label for="user_name">Username</label>
-                <input type="text" style="width: 300px" class="form-control" id="user_name" name="user_name" placeholder="Enter username">
+                <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Enter username">
 
             </div>
         </td>
         <td>
             <div class="form-group">
                 <label style="red" for="user_password">Password</label>
-                <input type="password" style="width: 300px;" class="form-control" id="user_password" name="user_password" value="{{ old('user_password')}}" placeholder="Enter password">
+                <input type="password" " class="form-control" id="user_password" name="user_password" value="{{ old('user_password')}}" placeholder="Enter password">
             </div>
         </td>
         <td>
             <div class="form-group">
                 <label for="user_mobile">Account Mobile</label>
-                <input type="text" style="width: 300px" value="{{ old('user_mobile')}}" class="form-control" id="user_mobile" name="user_mobile" aria-describedby="emailHelp" placeholder="Enter mobile">
+                <input type="text"  value="{{ old('user_mobile')}}" class="form-control" id="user_mobile" name="user_mobile" aria-describedby="emailHelp" placeholder="Enter mobile">
             
             </div>
         </td>
         <td>
             <div class="form-group">
                 <label for="user_email">Email</label>
-                <input type="email" class="form-control" value="{{ old('user_email')}}" style="width: 300px" id="user_email" name="user_email" placeholder="Enter email">
+                <input type="email" class="form-control" value="{{ old('user_email')}}"  id="user_email" name="user_email" placeholder="Enter email">
            
             </div>
         </td>
@@ -235,7 +220,7 @@
         <td >
             <div class="form-group">
                 <label for="customer_fname">First Name</label>
-                <input type="text" style="width: 300px" class="form-control" id="customer_fname" name="customer_fname"  placeholder="Enter First Name">
+                <input type="text"  class="form-control" id="customer_fname" name="customer_fname"  placeholder="Enter First Name">
                
             </div>
         </td>
@@ -243,7 +228,7 @@
             <td >
                 <div class="form-group">
                     <label for="customer_lname">Last Name</label>
-                    <input type="text" style="width: 300px" class="form-control" id="customer_lname" name="customer_lname"  placeholder="Enter Last Name">
+                    <input type="text"  class="form-control" id="customer_lname" name="customer_lname"  placeholder="Enter Last Name">
                  
                 </div>
             </td>
@@ -251,14 +236,14 @@
             <td>
                 <div class="form-group">
                     <label for="customer_mname">Middle Name</label>
-                    <input type="text" style="width: 300px" class="form-control" id="customer_mname" name="customer_mname" aria-describedby="emailHelp" placeholder="Enter Middle Name">
+                    <input type="text"  class="form-control" id="customer_mname" name="customer_mname" aria-describedby="emailHelp" placeholder="Enter Middle Name">
                  
                 </div>
             </td>
             <td>
                 <div class="form-group">
                     <label for="customer_mobile">Mobile</label>
-                    <input type="number" class="form-control" style="width: 300px" id="customer_mobile" name="customer_mobile" aria-describedby="emailHelp" placeholder="Enter Mobile No">
+                    <input type="number" class="form-control"  id="customer_mobile" name="customer_mobile" aria-describedby="emailHelp" placeholder="Enter Mobile No">
              
                 </div>
             </td>
@@ -268,12 +253,12 @@
         <td>
             <div class="form-group">
                 <label for="customer_tel">Telephone</label>
-                <input type="number" class="form-control" style="width: 300px" id="customer_tel" name="customer_tel" placeholder="Enter Telephone">
+                <input type="number" class="form-control"  id="customer_tel" name="customer_tel" placeholder="Enter Telephone">
             
             </div>
         </td>
         <td>
-            <div class="form-group" style="width: 300px">
+            <div class="form-group" >
                 <label for="customer_gender">Gender</label>
                 <select id="customer_gender" class="form-control custom-select" id="customer_gender" name="customer_gender">
                   <option selected disabled>Choose Gender:</option>
@@ -284,7 +269,7 @@
               </div>
         </td>
         <td>
-            <div class="form-group" style="width: 300px">
+            <div class="form-group" >
                 <label for="customer_birthday" class="form-label">Birthdate</label>
                 <br>
                 <div class="">
@@ -296,7 +281,7 @@
               </div>
         </td>
         <td>
-            <div class="form-group" style="width: 300px">
+            <div class="form-group" >
                 <label for="customer_blk">House Block/Building/Floor No.</label>
                 <input type="text" class="form-control" name="customer_blk" id="customer_blk"  placeholder="Enter Address">
          
@@ -306,28 +291,28 @@
     <tr>
         
         <td>
-            <div class="form-group" style="width: 300px">
+            <div class="form-group" >
                 <label for="customer_street">Street/Highway</label>
                 <input type="text" class="form-control" name="customer_street" id="customer_street" placeholder="Enter Address">
          
             </div>
         </td>
         <td>
-            <div class="form-group" style="width: 300px">
+            <div class="form-group" >
                 <label for="customer_subdivision">Subdivision</label>
                 <input type="text" class="form-control" name="customer_subdivision" id="customer_subdivision"  placeholder="Enter Address">
          
             </div>
         </td>
         <td>
-            <div class="form-group" style="width: 300px">
+            <div class="form-group" >
                 <label for="">Barangay</label>
                 <input type="text" class="form-control" name="customer_barangay" id="customer_barangay" placeholder="Enter Address">
        
             </div>
         </td>
         <td>
-            <div class="form-group" style="width: 300px">
+            <div class="form-group" >
                 <label for="customer_city">City</label>
                 <input type="text" class="form-control" name="customer_city" id="customer_city"  placeholder="Enter Address">
 
@@ -337,15 +322,14 @@
 
     <tr>
         <td>
-            <div class="form-group" style="width: 300px">
+            <div class="form-group" >
                 <label for="customer_zip">Zip Code</label>
                 <input type="text" class="form-control" name="customer_zip" id="customer_zip" placeholder="Enter Addres">
     
             </div>
         </td>
-
         <td>
-            <div class="form-group" style="width: 300px">
+            <div class="form-group" >
                 <label for="isActive">Active</label>
                 <select id="isActive" class="form-control custom-select" id="isActive" name="isActive">
                   <option selected disabled>is Customer active?</option>
@@ -355,8 +339,9 @@
 
               </div>
         </td>
+        
         <td>
-            <div class="form-group" style="width: 300px">
+            <div class="form-group" >
                 <label for="inputdp"> Profile Picture</label>
                 <br>
                 <form action="/action_page.php">
@@ -367,10 +352,8 @@
   </thead>
 </table>
 
-<div style="text-align: right; height: 100; padding-top: 20px">
-    <button type="submit" class="btn btn-success btn-sm" style=" height: 40%;"> <i class="fas fa-user"></i> Register Customer </a></button>
-
-   
+<div>
+    <button type="submit" class="btn btn-success btn-lg" style=" height: 40%;"> <i class="fas fa-user"></i> Register Customer </a></button>
 </div>
 
 </form>   

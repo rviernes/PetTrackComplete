@@ -7,6 +7,7 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\Customercontroller;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VeterinariansController;
 
 
 /*
@@ -59,6 +60,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('/CRUDclinic/delete/{clinic_id}',[AdminController::class, 'deleteClinic'])->name('deleteclinic');
         Route::get('/CRUDclinic/regVet/{clinic_id}', [AdminController::class, 'admin_AddVetID'])->name('display');
         Route::post('/CRUDclinic/regVet/save', [AdminController::class, 'admin_AddVeterinarian'])->name('addveterinarian');
+        Route::post('/clinic/CRUDclinic/addClinic/save',[AdminController::class,'admin_AddClinicSubmit'])->name('addclinicsubmit');
         Route::get('/CRUDvet/Edit/{vet_id}',[AdminController::class, 'admin_GetVet'])->name('getvet');
         Route::post('/CRUDvet/Edit/{vet_id}/Save',[AdminController::class,'admin_EditVetDetails'])->name('editvetdetails');
         Route::get('/CRUDvet/Delete/{id}', [AdminController::class, 'admin_DeleteVets'])->name('delete');
@@ -85,11 +87,56 @@ Route::prefix('user')->name('user.')->group(function() {
 
 });
 
-Route::prefix('vet')->name('vet.')->group(function() {
-
+Route::prefix('veterinary')->name('veterinary.')->group(function() {
+    
     Route::group(['middleware' => ['auth','veterinary']], function() {
 
+        Route::get('/dashboard', [VeterinariansController::class, 'countData'])->name('dashboard');
+        Route::get('/customers',[VeterinariansController::class, 'getAllCustomer'])->name('getallcustomer');
+        Route::get('/custsearch',[VeterinariansController::class, 'custSearch'])->name('custsearch');
+        Route::get('/viewvetpatient',[VeterinariansController::class, 'retrieveInfo'])->name('retrieveInfo');
+        Route::post('/viewvetpatient/save',[VeterinariansController::class, 'addPatients'])->name('addpatient');
+        // Route::get('/profilevet', [VeterinariansController::class, 'showProfile']);
+        Route::get('/profilevet', [VeterinariansController::class, 'vetProfile']); //get session for veterinary to profilevet page
+        Route::get('/editprofile', [VeterinariansController:: class, 'editProfile']); // get session update for vet
+        Route::post('/editprofile/{vet_id}/{user_id}', [VeterinariansController::class, 'saveProfile'])->name('save.vetimage');
+        Route::get('/registerCustomer', [VeterinariansController::class, 'showRegisterPage'])->name('vetPage');
+        Route::post('/registercustomer/save', [VeterinariansController::class, 'addCustomer'])->name('addcustomer');
+        
+        
 
+
+        Route::get('/veterinary/editaccount/{user_id}',[VeterinariansController::class, 'editAccount'])->name('vet.editaccount');
+
+        Route::get('/veterinary/viewveteditpatient/{pet_id}',[VeterinariansController::class, 'getPetIDVet']);
+        Route::post('/veterinary/viewveteditpatient-save/{pet_id}',[VeterinariansController::class, 'savePetVet']);
+        Route::get('/veterinary/vieweditpatient/{pet_id}',[VeterinariansController::class, 'getPetID']);
+        Route::post('/veterinary/vieweditpatient-save/{pet_id}',[VeterinariansController::class, 'savePet']);
+        Route::get('/veterinary/registerpet/{customer_id}',[VeterinariansController::class, 'petClassification']);
+        Route::get('/veterinary/veteditcustomer/{customer_id}',[VeterinariansController::class, 'veteditcustomerID']);
+        
+        Route::get('/veterinary/usereditcustomer/{customer_id}',[VeterinariansController::class, 'editcustomerID']);
+        
+        Route::post('/veterinary/save_customer/{customer_id}',[VeterinariansController::class, 'saveCustomer'])->name('vet.savecust');
+        Route::get('/petsearch',[VeterinariansController::class, 'patientSearch'])->name('patientsearch');
+        Route::post('/veterinary/changepass/{user_id}',[VeterinariansController::class, 'changePassword'])->name('vet.changepassword');
+        Route::post('/veterinary/registercustomer', [VeterinariansController::class, 'addCustomer'])->name('vet.addcustomer');
+        Route::get('/veterinary/viewvetcustomer',[VeterinariansController::class, 'getAllCustomer'])->name('vet.getallcustomer');
+        Route::post('/veterinary/viewvetpatient',[VeterinariansController::class, 'addPatients'])->name('vet.addpatient');
+        Route::get('/veterinary/delete-viewvetpatient/{pet_id}',[VeterinariansController::class, 'deletePatients'])->name('vet.deletepatients');
+        Route::get('/veterinary/delete-custpatitent/{pet_id}',[VeterinariansController::class, 'deleteCustPatients'])->name('vet.deletecustpatients');
+        Route::post('/veterinary/edit-viewvetcustomer/{customer_id}', [VeterinariansController::class, 'editCustomer'])->name('vet.editcust');
+        Route::get('/veterinary/delete-viewvetcustomer/{customer_id}',[VeterinariansController::class, 'deleteCustomers'])->name('vet.deletecustomers');
+        Route::get('/veterinary/profilevet', [MainController::class, 'vetProfile']); //get session for veterinary to profilevet page
+        Route::get('/veterinary/editprofile', [MainController:: class, 'editProfile']); // get session update for vet
+        Route::get('/veterinary/viewpatient/{customer_id}',[VeterinariansController::class, 'patientsOwnerView'])->name('custownerpatient');
+        Route::get('/veterinary/userviewpatient/{customer_id}',[VeterinariansController::class, 'userViewPatient']);
+        Route::get('/veterinary/clinicvet/{clinic_id}',[VeterinariansController::class, 'viewClinicVets']);
+        Route::get('/veterinary/qrcode/{pet_id}',[VeterinariansController::class, 'QRcode'])->name('vet.qrcode');
+
+        
+        Route::post('/logout', [VeterinariansController:: class, 'logout'])->name('logout');
+        
     });
 
 });

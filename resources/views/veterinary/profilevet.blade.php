@@ -1,4 +1,4 @@
-@extends('layoutsvet.app')
+@extends('layoutsVet.app')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> @section('content') <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
@@ -8,10 +8,6 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item">
-                            <a href="custProfile">Profile</a>
-                        </li>
-                        <li class="breadcrumb-item active">Settings</li>
                     </ol>
                 </div>
             </div>
@@ -35,10 +31,8 @@
                             </div>
                             <br>
                             <h5 style="text-align: center">Dr. {{ $LoggedUserInfo->vet_lname }}, {{ $LoggedUserInfo->vet_fname }} {{ $LoggedUserInfo->vet_mname }} </h5>
-                            <br>
-                            <a href="/veterinary/editprofile" class="btn btn-primary btn-block">
-                                <b>Edit Profile </b>
-                            </a>
+                            
+                            <a href="/veterinary/editprofile" class="btn btn-primary btn-block"><b>Edit Profile </b></a>    
                         </div>
                         <!-- /.card-body -->
                     </div>

@@ -55,56 +55,56 @@
         <h3 style="font-size: 300% ">Register Clinic</h3>
       </div>
 
-      <form action="/admin/CRUDclinic/register/save" method="POST" id="addClinicForm"> 
+      <form action="{{ route('admin.addclinicsubmit') }}" method="POST" id="addClinicForm"> 
         @csrf 
         <table class="table table-striped table-hover">
         <thead>
           <tr>
               <td>
                 <label>Clinic Name: </label>
-                <input type="text" class="form-control" name="clinic_name" id="clinic_name" placeholder="Enter Clinic Name">
+                <input type="text" class="form-control" name="clinic_name" id="clinic_name" placeholder="Enter Clinic Name" value="{{ old('clinic_name')}}">
               </td>
               <td>
                 <label>Owner Name: </label>
-                <input type="text" class="form-control" name="owner_name" id="owner_name" placeholder="Enter Owner Name" >
+                <input type="text" class="form-control" name="owner_name" id="owner_name" placeholder="Enter Owner Name" value="{{ old('owner_name')}}">
               </td>
               <td>
                 <label>Mobile No: </label>
-                <input type="number" class="form-control" name="clinic_mobile" id="clinic_mobile" placeholder="Enter Telephone" >
+                <input type="number" class="form-control" name="clinic_mobile" id="clinic_mobile" placeholder="Enter Telephone" value="{{ old('clinic_mobile')}}">
               </td>
             </tr>
             <td>
                 <label>Telephone: </label>
-                <input type="number" class="form-control" name="clinic_tel" id="clinic_tel" placeholder="Enter Telephone" >
+                <input type="number" class="form-control" name="clinic_tel" id="clinic_tel" placeholder="Enter Telephone" value="{{ old('clinic_tel')}}">
               </div>
             </td>
             <td>
                 <label>Email: </label>
-                <input type="email" class="form-control" name="clinic_email" id="clinic_email" placeholder="Enter Email" >
+                <input type="email" class="form-control" name="clinic_email" id="clinic_email" placeholder="Enter Email" value="{{ old('clinic_email')}}">
             </td>
             <td>
                 <label>House Block/Building/Floor No.: </label>
-                <input type="text" class="form-control" name="clinic_blk" id="clinic_blk" placeholder="House Block/Building/Floor No." >
+                <input type="text" class="form-control" name="clinic_blk" id="clinic_blk" placeholder="House Block/Building/Floor No." value="{{ old('clinic_blk')}}">
             </td>
           <tr>
             <td>
                 <label>Street/Highway: </label>
-                <input type="text" class="form-control" name="clinic_street" id="clinic_street" placeholder="House Block/Building/Floor No." >
+                <input type="text" class="form-control" name="clinic_street" id="clinic_street" placeholder="House Block/Building/Floor No." value="{{ old('clinic_street')}}">
             </td>
             <td>
                 <label>Barangay: </label>
-                <input type="text" class="form-control" name="clinic_barangay" id="clinic_barangay" placeholder="Barangay" >
+                <input type="text" class="form-control" name="clinic_barangay" id="clinic_barangay" placeholder="Barangay" value="{{ old('clinic_barangay')}}">
             </td>
             <td>
                 <label>City: </label>
-                <input type="text" class="form-control" name="clinic_city" id="clinic_city" placeholder="City" >
+                <input type="text" class="form-control" name="clinic_city" id="clinic_city" placeholder="City" value="{{ old('clinic_city')}}">
             </td>
           </tr>
           <tr>
             <td>
               <div class="form-group">
                 <label>Zip Code: </label>
-                <input type="number" class="form-control" name="clinic_zip" id="clinic_zip" placeholder="Zip Code" >
+                <input type="number" class="form-control" name="clinic_zip" id="clinic_zip" placeholder="Zip Code" value="{{ old('clinic_zip')}}">
             </td>
             <td>
                 <label>Clinic Active: </label>

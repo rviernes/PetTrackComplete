@@ -8,19 +8,21 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
 
-
-    
+<br>
+<div class="card">
 <div class="card card-success">
   <div class="card-body">
     <div class="row">
       <div class="col-md-12 col-lg-6 col-xl-4">
-        <div class="card mb-2 bg-gradient-dark">
-          <img class="card-img-top" src="{{asset('vendors/dist/img/dogcat.jpg') }}" alt="Dist Photo 1">
+        <div class="card mb-2 ">
+          <img class="card-img-top" src="{{asset('vendors/dist/img/dogcat2.jpeg') }}" alt="Dist Photo 1">
           <div class="card-img-overlay d-flex flex-column justify-content-end">
             <p class="card-text text-grey pb-2 pt-1">Never believe that animals suffer less than humans. Pain is the same for them that it is for us. Even worse, because they cannot help themselves.</p>
           </div>
         </div>
       </div>
+
+      
       <div class="col-md-12 col-lg-6 col-xl-4">
         <div class="card mb-2">
           <img class="card-img-top" src="{{asset('vendors/dist/img/dogcat1.jpeg') }}" alt="Dist Photo 2">
@@ -33,9 +35,9 @@
       </div>
       <div class="col-md-12 col-lg-6 col-xl-4">
         <div class="card mb-2">
-          <img class="card-img-top" src="{{asset('vendors/dist/img/dogcat2.jpeg') }}" alt="Dist Photo 3">
+          <img class="card-img-top" src="{{asset('vendors/dist/img/dogcat.jpg') }}" alt="Dist Photo 3">
           <div class="card-img-overlay">
-            <p class="card-text pb-1 pt-1 text-white">
+            <p class="card-text pb-1 pt-1 text-black">
               If having a soul means being able to <br>
               feel love and loyalty and gratitude, then <br>
               animals are better off than a lot of humans. </p>

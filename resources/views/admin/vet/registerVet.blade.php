@@ -33,7 +33,7 @@
         vet_dateAdded: { required: true}
       },
       messages: {
-        user_name: { required: "Please enter a username", minlength: "Your username must consist of at least 2 characters", maxlength: "Must not exceed 15 characters"},
+        user_name: { required: "Input needed", minlength: "Min. Char: 2", maxlength: "Max Characters: 5"},
         user_mobile: { required: "Please provide a mobile #", minlength: "Minimum of 9 characters", maxlength: "Must not exceed 13 characters"},
         user_password: { required: "Please provide a password", minlength: "Your password must be at least 8 characters long", maxlength: "Must not exceed 35 characters"},
         vet_fname: { required: "Please provide a First Name", minlength: "Name must be at least 2 characters long", maxlength: "Must not exceed 15 characters"},
@@ -65,7 +65,7 @@
 <br>
 
 <div class="card" style="width: auto; margin-left:20px; margin-right:20px; text-align: center; padding: 20px;">
-        <a class="btn btn-error btn-sm" href="/admin/clinic/CRUDclinic/home" style="margin-right: 3000px; padding-top: 10px; margin-left:10px">
+        <a class="btn btn-error btn-sm" href="/admin/CRUDclinic" style="margin-right: 3000px; padding-top: 10px; margin-left:10px">
             <i class="fas fa-arrow-left">
             </i>
             Return
@@ -98,7 +98,7 @@
         </td>
         <td>
             <div class="form-group" style="width: auto; text-align: left;">
-                <label>Account Mobile: </label>
+                <label>Account #: </label>
                 <input type="text"  value="{{ old('user_mobile')}}" class="form-control" id="user_mobile" name="user_mobile" aria-describedby="emailHelp" placeholder="Enter mobile">
             </div>
         </td>

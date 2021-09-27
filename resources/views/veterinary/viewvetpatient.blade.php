@@ -1,54 +1,45 @@
-@extends('layoutsvet.app')
+@extends('layoutsVet.app')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> @section('content')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> 
+@section('content')
+@include('sweet::alert')
+<link rel="stylesheet" href="/styles.css">
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6"></div>
-                <!-- /.col -->
-                <div class="col-sm-lg">
-                    <ol class="breadcrumb float-sm-right"></ol>
-                </div>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
-        </div>
-        <!-- /.container-fluid -->
-    </div>
+
     <!-- /.content-header -->
-    <form action="{{ route('vet.patientsearch') }}" method="get">
+    <!-- <form action="{{ route('veterinary.patientsearch') }}" method="get">
         <div class="input-group" style="width: 400px; margin-left: 500px">
             <input type="search" class="form-control rounded" placeholder="Search...." aria-label="Search" name="petsearch" id="petsearch" style="width: 200px;" />
             <button type="submit" class="btn btn-outline-primary">search</button>
             <br>
         </div>
-    </form>
+    </form> -->
     <br>
-    <!-- Default box --> @if(Session::has('patients_deleted')) <div class="alert alert-danger" role="alert">
+    <!-- Default box --> 
+    @if(Session::has('patients_deleted')) 
+    <div class="alert alert-danger" role="alert">
         {{ Session::get('patients_deleted') }}
-    </div> @endif <div class="card"> @if(Session::has('success')) <div class="alert alert-success" role="alert">
-            {{ Session::get('success') }}
-        </div> @endif @if(Session::has('warning')) <div class="alert alert-success" role="alert">
-            {{ Session::get('warning') }}
-        </div> @endif <div class="card"> @csrf <div class="card-header">
-                <a class="btn btn-error btn-sm" href="/veterinary/vethome">
-                    <i class="fas fa-arrow-left"></i> Return </a>
-                <br>
-                <h3 class="card-title">List of all patients</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
+    </div> 
+    @endif 
+    
+        @if(Session::has('success')) 
+    <div class="alert alert-success" role="alert">
+        {{ Session::get('success') }}
+    </div> 
+        @endif 
+        
+    @if(Session::has('warning')) 
+    <div class="alert alert-success" role="alert">
+        {{ Session::get('warning') }}
+    </div> 
+    @endif 
+
+        <div class="card"> 
+            @csrf 
+                <h3 class="card-title" id="pet_name_id">List of all patients</h3>
             <div class="card-body p-0">
                 <table style="table-layout: fixed; width: 100%;" class="table table-striped projects">
                     <thead>
@@ -69,6 +60,7 @@
                             <th style="width:250px;" scope="col">Action</th>
                         </tr>
                     </thead>
+
                     <tbody> @foreach ($petInfoDatas as $info) <tr>
                             <td>{{ $info->pet_id }}</td>
                             <td>{{ $info->pet_name }}</td>

@@ -25,7 +25,8 @@ class AdminMiddleware
             return back();
         }
         elseif (auth()->user()->usertype == "veterinary") {
-            return redirect('/home')->with('denied',"You don't have access to that page! V");
+            alert()->warning('You do not have access to that page','Veterinary Denied');
+            return back();
         }
         
         

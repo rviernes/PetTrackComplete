@@ -20,10 +20,10 @@ class VetMiddleware
             return $next($request);
         }
         elseif (auth()->user()->usertype == "customer") {
-            return redirect('customer/dashboard')->with('denied',"You don't have access to that page! C");
+            return back();
         }
         elseif(auth()->user()->usertype == "admin"){
-            return redirect('admin/dashboard')->with('denied',"You don't have access to that page! A");
+            return back();
         }
     }
 }

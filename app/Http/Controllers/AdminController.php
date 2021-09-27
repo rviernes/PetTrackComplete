@@ -130,7 +130,7 @@ class AdminController extends Controller
         $customers = Customer::where('customer_fname', 'like', '%'.$search.'%')
                              ->union($a)
                              ->union($b)
-                             ->paginate('5');
+                             ->paginate(8);
         
         // DB::table('customers')
         // ->select('customer_id','customer_fname','customer_lname', DB::raw("CONCAT(customer_fname,' ', customer_lname) AS customer_name"),'customer_mobile', 'customer_tel', 
@@ -422,17 +422,13 @@ class AdminController extends Controller
 
     public function admin_AddClinicSubmit(Request $request){
         $checkQuery = Clinic::where('clinic_blk', $request->clinic_blk)->first();
-        $checkQuery2 = Clinic::where('clinic_street', $request->clinic_blk)->first();
 
         // dd($checkQuery2); die;
 
         if ($checkQuery) {
             alert()->warning('Clinic is already registered');
             return back();
-        }elseif ($checkQuery2) {
-            alert()->warning('Clinic is already registered');
-            return back();
-        }else {
+        }else{
             Clinic::insert([
                 'clinic_name' => ucwords($request->clinic_name),
                 'owner_name' => ucwords($request->owner_name),
@@ -522,25 +518,25 @@ class AdminController extends Controller
                         $toArray = (array)$getId;
                         (int) $convert = implode($toArray);
 
-                        $vett = new Veterinary();
-                        $vett->vet_fname       = ucwords($request->vet_fname);
-                        $vett->vet_lname       = ucwords($request->vet_lname);
-                        $vett->vet_mname       = ucwords($request->vet_mname);
-                        $vett->vet_mobile      = $request->vet_mobile;
-                        $vett->vet_tel         = $request->vet_tel;
-                        $vett->vet_birthday    = $request->vet_birthday;
-                        $vett->vet_DP          = $request->vet_DP;
-                        $vett->vet_blk         = $request->vet_blk;
-                        $vett->vet_street      = ucwords($request->vet_street);
-                        $vett->vet_subdivision = ucwords($request->vet_subdivision);
-                        $vett->vet_barangay    = ucwords($request->vet_barangay);
-                        $vett->vet_city        = ucwords($request->vet_city);
-                        $vett->vet_zip         = $request->vet_zip;
-                        $vett->id              = (int)$convert;
-                        $vett->clinic_id       = $request->clinic_id;
-                        $vett->vet_isActive    = $request->vet_isActive;
-                        $vett->vet_dateAdded   = $request->vet_dateAdded;
-                        $vett->save();
+                        $vet = new Veterinary();
+                        $vet->vet_fname       = ucwords($request->vet_fname);
+                        $vet->vet_lname       = ucwords($request->vet_lname);
+                        $vet->vet_mname       = ucwords($request->vet_mname);
+                        $vet->vet_mobile      = $request->vet_mobile;
+                        $vet->vet_tel         = $request->vet_tel;
+                        $vet->vet_birthday    = $request->vet_birthday;
+                        $vet->vet_DP          = $request->vet_DP;
+                        $vet->vet_blk         = $request->vet_blk;
+                        $vet->vet_street      = ucwords($request->vet_street);
+                        $vet->vet_subdivision = ucwords($request->vet_subdivision);
+                        $vet->vet_barangay    = ucwords($request->vet_barangay);
+                        $vet->vet_city        = ucwords($request->vet_city);
+                        $vet->vet_zip         = $request->vet_zip;
+                        $vet->id              = (int)$convert;
+                        $vet->clinic_id       = $request->clinic_id;
+                        $vet->vet_isActive    = $request->vet_isActive;
+                        $vet->vet_dateAdded   = $request->vet_dateAdded;
+                        $vet->save();
 
                          $id = $request->clinic_id;
                          alert()->success('Veterinary has been Successfully added','Welcome!');
@@ -842,3 +838,7 @@ class AdminController extends Controller
 
 
 }
+
+// $this->validate($request, array(
+//     'clinic_blk' => "required | min:5 | max: 25 | unique:clinics,clinic_blk,$request->clinic_id",
+// ));

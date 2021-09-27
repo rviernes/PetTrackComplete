@@ -1,5 +1,7 @@
-@extends('layoutsvet.app')
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> @section('content') <div class="content-wrapper">
+@extends('layoutsVet.app')
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> 
+@section('content') 
+<div class="content-wrapper">
 <script src="https://jqueryvalidation.org/files/lib/jquery.js"></script>
 <script src="https://jqueryvalidation.org/files/lib/jquery-1.11.1.js"></script>
 <script src="https://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
@@ -75,8 +77,9 @@
                                 <div class="text-center">
                                     <img class="profile-user-img img-fluid img-circle" src="{{asset('vendors/dist/img/han.jpg') }}" alt="Profile Picture">
                                 </div>
+
                                 <h3 class="profile-username text-center"> {{ $LoggedUserInfo->vet_fname }},{{ $LoggedUserInfo->vet_lname }}</h3>
-                <a href="custeditProfile" id="change_dp" class="btn btn-primary btn-block"><b>Edit Profile </b></a>
+                                <a href="custeditProfile" id="change_dp" class="btn btn-primary btn-block"><b>Edit Profile </b></a>
                             </div>
                             <!-- /.row -->
                         </div>
@@ -112,111 +115,121 @@
                         <div class="card-body">
                             <div class="tab-content">
                                 <div class=" active tab-pane" id="personal_info">
-                                    <form class="form-horizontal" action="/veterinary/editprofile/{{ $LoggedUserInfo->vet_id }}/{{ $LoggedUserInfo->user_id }}" method="POST" action="#" id="InfoForm"> @csrf <table class="table">
+                                    <form class="form-horizontal" action="/veterinary/editprofile/{{ $LoggedUserInfo->vet_id }}/{{ $LoggedUserInfo->id }}" method="POST" action="#" id="InfoForm"> @csrf <table class="table">
                                           @csrf  
                                         <thead>
                                                 <tr>
                                                     <td style="border: none">
-                                                        <div class="form-group row" style="width: 250px">
+                                                        <div class="form-group row" id="inputBoxes">
                                                             <label for="inputName">Username:</label>
-                                                            <input type="text" class="form-control" id="user_name" value="{{ $LoggedUserInfo->user_name }}" name="user_name">
+                                                            <input type="text" class="form-control" id="user_name" value="{{ $LoggedUserInfo->username }}" name="user_name">
                                                             <span class="text-danger error-text name_error"></span>
                                                         </div>
                                                     </td>
                                                     <td style="border: none">
-                                                        <div class="form-group row" style="width: 250px">
+                                                        <div class="form-group row" id="inputBoxes">
+                                                            <label for="inputName">Password:</label>
+                                                            <input type="password" class="form-control" id="user_password" value="" name="user_password">
+                                                            <span class="text-danger error-text name_error"></span>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border: none">
+                                                        <div class="form-group row" id="inputBoxes">
                                                             <label for="inputName2">Account Mobile No:</label>
-                                                            <input type="number" class="form-control" id="user_mobile" value="{{ $LoggedUserInfo->user_mobile }}" name="user_mobile">
+                                                            <input type="number" class="form-control" id="user_mobile" value="{{ $LoggedUserInfo->phone }}" name="user_mobile">
                                                             <span class="text-danger error-text mobile_error"></span>
                                                         </div>
                                                     </td style="border: none">
+                                                    
+                                                </tr>
+                                                
+                                                <tr>
                                                     <td style="border: none">
-                                                        <div class="form-group row" style="width: 250px">
+                                                        <div class="form-group row" id="inputBoxes">
                                                             <label for="inputEmail">Email:</label>
-                                                            <input type="email" class="form-control" id="user_email" value="{{ $LoggedUserInfo->user_email }}" placeholder="Enter Email" name="user_email">
+                                                            <input type="email" class="form-control" id="user_email" value="{{ $LoggedUserInfo->email }}" placeholder="Enter Email" name="user_email">
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
-                                                </tr>
-                                                <tr>
                                                     <td style="border: none">
-                                                        <div class="form-group row" style="width: 250px">
+                                                        <div class="form-group row" id="inputBoxes">
                                                             <label for="inputEmail">First Name:</label>
                                                             <input type="text" class="form-control" id="vet_fname" value="{{ $LoggedUserInfo->vet_fname }}" placeholder="Enter First Name" name="vet_fname">
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
                                                     <td style="border: none">
-                                                        <div class="form-group row" style="width: 250px">
+                                                        <div class="form-group row" id="inputBoxes">
                                                             <label for="inputEmail">Last Name:</label>
                                                             <input type="text" class="form-control" id="vet_lname" value="{{ $LoggedUserInfo->vet_lname }}" placeholder="Enter Last Name" name="vet_lname">
-                                                            <span class="text-danger error-text email_error"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td style="border: none">
-                                                        <div class="form-group row" style="width: 250px">
-                                                            <label for="inputEmail">Middle Name:</label>
-                                                            <input type="text" class="form-control" id="vet_mname" value="{{ $LoggedUserInfo->vet_mname }}" placeholder="Enter Mobile Name" name="vet_mname">
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: none">
-                                                        <div class="form-group row" style="width: 250px">
+                                                        <div class="form-group row" id="inputBoxes">
+                                                            <label for="inputEmail">Middle Name:</label>
+                                                            <input type="text" class="form-control" id="vet_mname" value="{{ $LoggedUserInfo->vet_mname }}" placeholder="Enter Mobile Name" name="vet_mname">
+                                                            <span class="text-danger error-text email_error"></span>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border: none">
+                                                        <div class="form-group row" id="inputBoxes">
                                                             <label for="inputEmail">Contact Mobile No:</label>
                                                             <input type="text" class="form-control" id="vet_mobile" value="{{ $LoggedUserInfo->vet_mobile }}" placeholder="Enter Email" name="vet_mobile">
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
                                                     <td style="border: none">
-                                                        <div class="form-group row" style="width: 250px">
+                                                        <div class="form-group row" id="inputBoxes">
                                                             <label for="inputEmail">Telephone No:</label>
                                                             <input type="text" class="form-control" id="vet_tel" value="{{ $LoggedUserInfo->vet_tel }}" placeholder="Enter Email" name="vet_tel">
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
+                                                    
+                                                </tr>
+                                                <tr>
                                                     <td style="border: none">
-                                                        <div class="form-group row" style="width: 250px">
+                                                        <div class="form-group row" id="inputBoxes">
                                                             <label for="inputEmail">Blk No:</label>
                                                             <input type="text" class="form-control" id="vet_blk" value="{{ $LoggedUserInfo->vet_blk }}" placeholder="Enter Email" name="vet_blk">
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
-                                                </tr>
-                                                <tr>
                                                     <td style="border: none">
-                                                        <div class="form-group row" style="width: 250px">
+                                                        <div class="form-group row" id="inputBoxes">
                                                             <label for="inputEmail">Street:</label>
                                                             <input type="text" class="form-control" id="vet_street" value="{{ $LoggedUserInfo->vet_street}}" placeholder="Enter Email" name="vet_street">
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
                                                     <td style="border: none">
-                                                        <div class="form-group row" style="width: 250px">
+                                                        <div class="form-group row" id="inputBoxes" >
                                                             <label for="inputEmail">Subdivision:</label>
                                                             <input type="text" class="form-control" id="vet_subdivision" value="{{ $LoggedUserInfo->vet_subdivision }}" placeholder="Enter Email" name="vet_subdivision">
-                                                            <span class="text-danger error-text email_error"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td style="border: none">
-                                                        <div class="form-group row" style="width: 250px">
-                                                            <label for="inputEmail">Barangay:</label>
-                                                            <input type="text" class="form-control" id="vet_barangay" value="{{ $LoggedUserInfo->vet_barangay }}" placeholder="Enter Email" name="vet_barangay">
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: none">
-                                                        <div class="form-group row" style="width: 250px">
+                                                        <div class="form-group row" id="inputBoxes">
+                                                            <label for="inputEmail">Barangay:</label>
+                                                            <input type="text" class="form-control" id="vet_barangay" value="{{ $LoggedUserInfo->vet_barangay }}" placeholder="Enter Email" name="vet_barangay">
+                                                            <span class="text-danger error-text email_error"></span>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border: none">
+                                                        <div class="form-group row" id="inputBoxes" >
                                                             <label for="inputEmail">City:</label>
                                                             <input type="text" class="form-control" id="vet_city" value="{{ $LoggedUserInfo->vet_city }}" placeholder="Enter Email" name="vet_city">
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
                                                     <td style="border: none">
-                                                        <div class="form-group row" style="width: 250px">
+                                                        <div class="form-group row" id="inputBoxes">
                                                             <label for="inputEmail">Zip Code:</label>
                                                             <input type="text" class="form-control" id="vet_zip" value="{{ $LoggedUserInfo->vet_zip }}" placeholder="Enter Email" name="vet_zip">
                                                             <span class="text-danger error-text email_error"></span>
@@ -225,10 +238,8 @@
                                                 </tr>
                                             </thead>
                                         </table>
-                                        <div class="form-group row" style="width: 250px; margin-left: 850px;  text-align: right">
-                                            <div class="offset-sm-2 col-sm-10">
-                                                <button type="submit" class="btn btn-danger">Save Changes</button>
-                                            </div>
+                                        <div style="text-align: center;">
+                                                <button type="submit" class="btn btn-danger" style=""><i class="fas fa-save"></i> Save Changes</button>
                                         </div>
                                     </form>
                                 </div>

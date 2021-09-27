@@ -42,9 +42,7 @@
           <td>{{ $vetInfo->clinic_name }}</td>
           
             <td class="project-actions">
-              <button class="btn btn-primary" data-toggle="modal" data-target="#viewModal{{ $vetInfo->vet_id }}" ><i class="fas fa-folder"></i></button>
-              <a class="btn btn-info" href="/admin/vet/editVet/{{ $vetInfo->vet_id }}"><i class="fas fa-pencil-alt"></i></a>
-              <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $vetInfo->vet_id }}"><i class="fas fa-trash"></i></button>
+              <button class="btn btn-primary" data-toggle="modal" data-target="#viewModal{{ $vetInfo->vet_id }}" ><i class="fas fa-folder"></i> View</button>
             </td> 
         </tr>
 
@@ -58,7 +56,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/admin/vet/viewVetDetails/delete/{{ $vetInfo->user_id }}" method="GET">
+            <form action="/admin/vet/viewVetDetails/delete/{{ $vetInfo->id }}" method="GET">
                 @csrf
                 <div class="modal-body" style="text-align: center;">
                     <h4>Confirm deletion of Veterinarian, <strong>{{ $vetInfo->vet_fname }}</strong>?</h4><br>
@@ -82,10 +80,9 @@
           <h4 class="modal-title" style="font-weight: bold;">View Veterinary Details</h4>
         </div>
           <div class="modal-body" style="font-weight: bold; text-align: left; margin-left: auto; margin-right: auto;">
-              <h5><strong>Username:  </strong>{{ $vetInfo->user_name }}
-                <br><strong>Password:  </strong>{{ $vetInfo->user_password }}
-                <br><strong>Mobile No.:  </strong>{{ $vetInfo->user_mobile }}
-                <br><strong>Email:  </strong>{{ $vetInfo->user_email }}
+              <h5><strong>Username:  </strong>{{ $vetInfo->username }}
+                <br><strong>Mobile No.:  </strong>{{ $vetInfo->phone }}
+                <br><strong>Email:  </strong>{{ $vetInfo->email }}
                 <br><strong>Vet Mobile#   :  </strong>{{ $vetInfo->vet_mobile }}
                 <br><strong>Vet Telephone#   :  </strong>{{ $vetInfo->vet_tel }}
                 <br><br><strong>Address:  </strong>{{ $vetInfo->vet_address }}
