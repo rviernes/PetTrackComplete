@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Providers\SweetAlertServiceProvider;
+use Sweetalert\Sweetalert;
 
 class RegisterController extends Controller
 {
@@ -30,7 +32,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/user/dashboard';
 
     /**
      * Create a new controller instance.
@@ -51,10 +53,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => ['required', 'string', 'max:255','unique:users'],
-            'phone' => ['required', 'digits_between:9,13'],
-            'usertype' => ['required', 'string'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'username' => ['required','alpha_dash', 'string', 'max:255','unique:users,username'],
+            'phone' => ['required', 'numeric'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -65,14 +66,47 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
+
+
     protected function create(array $data)
-    {
-        return User::create([
+    {   
+
+
+        $checkQuery = Customer::where('customer_fname', $data['customer_fname'])
+                              ->where('customer_lname', $data['customer_lname'])
+                              ->where('customer_mname', $data['customer_mname'])
+                              ->first();
+        if ($checkQuery) {
+            alert()->warning('Customer already exists','Existing');
+            return back();
+        }else{
+            $createAcc = User::create([
             'username' => $data['username'],
             'phone' => $data['phone'],
             'usertype' => $data['usertype'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+            $createAcc->userData = Customer::create([
+                'customer_fname' => ucwords($data['customer_fname']),
+                'customer_lname' => ucwords($data['customer_lname']),
+                'customer_mname' => ucwords($data['customer_mname']),
+                'customer_mobile' => $data['customer_mobile'],
+                'customer_tel' => $data['customer_tel'],
+                'customer_gender' => $data['customer_gender'],
+                'customer_birthday' => $data['customer_birthday'],
+                'customer_blk' => ucwords($data['customer_blk']),
+                'customer_street' => ucwords($data['customer_street']),
+                'customer_subdivision' => ucwords($data['customer_subdivision']),
+                'customer_barangay' => ucwords($data['customer_barangay']),
+                'customer_zip' => $data['customer_zip'],
+                'customer_city' => ucwords($data['customer_city']),
+                'id' => $createAcc->id,
+                'customer_isActive' => 1,
+            ]);
+
+        return $createAcc;
+        }
     }
 }

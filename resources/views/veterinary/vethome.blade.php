@@ -17,7 +17,7 @@
                 <div class="container-fluid">
                     <!-- Small boxes (Stat box) -->
                     <div class="row">
-                        <div class="col-lg-3 col-6">
+                        <div class="col-lg-4 col-6">
                             <!-- small box -->
                             <div class="small-box bg-info">
                                 <div class="inner">
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <!-- ./col -->
-                        <div class="col-lg-3 col-6">
+                        <div class="col-lg-4 col-6">
                             <!-- small box -->
                             <div class="small-box bg-success">
                                 <div class="inner">
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <!-- ./col -->
-                        <div class="col-lg-3 col-6">
+                        <div class="col-lg-4 col-6">
                             <!-- small box -->
                             <div class="small-box bg-warning">
                                 <div class="inner">
@@ -57,25 +57,11 @@
                                 <div class="icon">
                                     <i class="ion ion-person-add"></i>
                                 </div>
-                                <a href="viewvetcustomer" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i>
+                                <a href="/veterinary/customers" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i>
                                 </a>
                             </div>
                         </div>
                         <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-danger">
-                                <div class="inner">
-                                    <h3>{{ $countClinic }}</h3>
-                                    <p>Clinic Registered</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-pie-graph"></i>
-                                </div>
-                                <a href="viewvetclinic" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i>
-                                </a>
-                            </div>
-                        </div>
                         <!-- ./col -->
                     </div>
                     <div class="content">
@@ -161,11 +147,4 @@
                                     <!-- /.content-wrapper -->
                                     <!-- ./wrapper -->
                                     <!-- REQUIRED SCRIPTS -->
-                                    <!-- jQuery -->
-                                    <script src="../../plugins/jquery/jquery.min.js"></script>
-                                    <!-- Bootstrap 4 -->
-                                    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-                                    <!-- AdminLTE App -->
-                                    <script src="../../dist/js/adminlte.min.js"></script>
-                                    <!-- AdminLTE for demo purposes -->
-                                    <script src="../../dist/js/demo.js"></script> @endsection
+                                    <!-- jQuery --> @endsection

@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="/styles.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<link rel="stylesheet" href="/styles.css">
 <div class="content-wrapper">
   <br>
   
@@ -106,6 +105,7 @@
 
       </tbody>      
     </table>
+        <div style="margin-left: 10px;">{{ $userTypes_name->links('pagination::bootstrap-4') }}</div> 
   </div>
   <br>
 </div>

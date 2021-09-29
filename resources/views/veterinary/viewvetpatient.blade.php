@@ -44,45 +44,36 @@
                 <table style="table-layout: fixed; width: 100%;" class="table table-striped projects">
                     <thead>
                         <tr>
-                            <th style="width:15%;" scope="col">ID</th>
-                            <th style="width:15%;" scope="col"> Name</th>
-                            <th style="width:15%;" scope="col"> Gender</th>
-                            <th style="width: 20%;" scope="col">Birthday</th>
-                            <th style="width: 18%;" scope="col"> Notes</th>
-                            <th style="width: 20%;" scope="col"> Blood Type</th>
+                            <th> Name</th>
+                            <th> Gender</th>
                             <!-- <th style="width:95px;"scope="col"> Profile</th> -->
-                            <th style="width: 25%;" scope="col"> Registered Date</th>
-                            <th style="width: 15%;" scope="col"> Type </th>
-                            <th style="width: 18%;" scope="col"> Breed </th>
-                            <th style="width: 20%;" scope="col">Customer </th>
-                            <th style="width: 15%;" scope="col">Clinic </th>
-                            <th style="width:15%;" scope="col">Status</th>
-                            <th style="width:250px;" scope="col">Action</th>
+                            <th> Type </th>
+                            <th> Breed </th>
+                            <th>Customer </th>
+                            <th>Clinic </th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
 
                     <tbody> @foreach ($petInfoDatas as $info) <tr>
-                            <td>{{ $info->pet_id }}</td>
                             <td>{{ $info->pet_name }}</td>
                             <td>{{ $info->pet_gender }}</td>
-                            <td>{{ $info->pet_birthday }}</td>
-                            <td>{{ $info->pet_notes }}</td>
-                            <td style="text-align: center">{{ $info->pet_bloodType }}</td>
-                            <td>{{ $info->pet_registeredDate }}</td>
                             <td>{{ $info->type_name }}</td>
                             <td>{{ $info->breed_name }}</td>
                             <td>{{ $info->customer_name}}</td>
-                            <td>{{ $info->clinic_name}}</td> @if ($info->pet_isActive==1) <td>
-                                <span class="badge badge-success">Yes</span>
-                            </td> @else <td>
-                                <span class="badge badge-danger">No</span>
-                            </td> @endif <td class="project-actions text-right">
-                                <a href="" class="btn btn-primary btn-sm" data-id="" data-toggle="modal" data-target="#viewModal{{ $info->pet_id }}">
-                                    <i class="fas fa-folder"></i> View </a>
-                                <a href="/veterinary/viewveteditpatient/{{ $info->pet_id }}" class="btn btn-info btn-sm">
-                                    <i class="fas fa-pencil-alt"></i> Edit </a>
-                                <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ $info->pet_id }}">
-                                    <i class="fas fa-trash"></i> Delete </a>
+                            <td>{{ $info->clinic_name}}</td> 
+
+                            @if ($info->pet_isActive==1) <td>
+                                <span class="badge badge-success">Active</span>
+                            </td> 
+                            @else 
+                            
+                            <td>
+                                <span class="badge badge-danger">Inactive</span>
+                            </td> @endif <td class="project-actions">
+                                <a href="" class="btn btn-primary " data-id="" data-toggle="modal" data-target="#viewModal{{ $info->pet_id }}">
+                                    <i class="fas fa-folder"></i> View</a>
                             </td>
                         </tr>
                         <!-- /.card -->
@@ -97,22 +88,57 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <h5 id="pet_name"> Name: <strong>{{ $info->pet_name }} </strong>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <h5>Pet name:        <br><strong> {{ $info->pet_name }}            </strong></h5>
+                                                </div>
+                                                <div class="col-md-4">
+                                                <h5>Gender:        <br><strong> {{ $info->pet_gender }}            </strong></h5>
+                                                </div>
+                                                <div class="col-md-4">
+                                                <h5>Birthdate:           <br><strong> {{ $info->pet_birthday }}          </strong></h5>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <h5>Type:        <br><strong> {{ $info->type_name }}            </strong></h5>
+                                                </div>
+                                                <div class="col-md-4">
+                                                <h5>Breed:        <br><strong> {{ $info->breed_name }}            </strong></h5>
+                                                </div>
+                                                <div class="col-md-4">
+                                                <h5>Registered Date:           <br><strong> {{ $info->pet_registeredDate }}          </strong></h5>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <h5>Owner:        <br><strong> {{ $info->customer_name}}            </strong></h5>
+                                                </div>
+                                                <div class="col-md-4">
+                                                <h5></h5>
+                                                </div>
+                                                <div class="col-md-4">
+                                                <h5>Bloodtype:           <br><strong> {{ $info->pet_bloodType }}          </strong></h5>
+                                            </div>
+                                        </div>
+                                        
+                                        <h5 style="color: blue;">Pet prescription: <strong>"{{ $info->pet_notes }}"</strong><br><br>
+
+                                        
+                                        <h6>Address:         <strong> {{ $info->customer_address }}    </strong></h5>
+                                        
+                                        @if ($info->pet_isActive == "1") 
+                                            <h5>Status : <strong> Active </strong></h5>
+                                            @else 
+                                            <h5>Status : <strong> Inactive </strong></h5> 
+                                            @endif 
+                                            <h5> 
                                         </h5>
-                                        <h5 id="pet_gender">Gender: <strong>{{ $info->pet_gender }}</strong>
-                                        </h5>
-                                        <h5>Birthday: <strong>{{ $info->pet_birthday }}</strong>
-                                        </h5>
-                                        <h5>Type: <strong>{{ $info->type_name }}</strong>
-                                        </h5>
-                                        <h5>Breed: <strong>{{ $info->breed_name }}</strong>
-                                        </h5>
-                                        <h5>Registered Date: <strong>{{ $info->pet_registeredDate }}</strong>
-                                        </h5>
-                                        <h5>Owner: <strong>{{ $info->customer_name}}</strong>
-                                        </h5>
-                                        <h5>Address: <strong>{{ $info->customer_address}}</strong>
-                                        </h5>
+
+
                                         {{-- {{ QrCode::generate('http://127.0.0.1:8000/veterinary/qrcode/$info->pet_id'); }} --}} <h5 style="text-align: center"> 
                                             {!! QrCode::size(150)->generate('name: '.$info->pet_name. ' Gender: '.$info->pet_gender. ' Type: '.$info->type_name. ' Breed: '.$info->breed_name. ' Registered Date: '.$info->pet_registeredDate. ' Owner: '.$info->customer_name. ' Address: '.$info->customer_address); !!} <br>
                                             <strong>Scan Me</strong>

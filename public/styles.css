@@ -128,3 +128,19 @@
 #inputBoxes{
   width: 250px
 }
+
+.regClass{
+  width: auto;
+}
+
+#labelz {
+  text-align: left;
+}
+
+input.regClass {
+  width: auto;
+}
+
+#returnId{
+  text-align: left;
+}

@@ -1,5 +1,8 @@
 @extends('layoutsVet.app')
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> @section('content') <div class="content-wrapper">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> 
+@section('content') 
+<div class="content-wrapper">
+    <link rel="stylesheet" href="/styles.css">
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -42,7 +45,7 @@
                 <!-- /.col -->
                 <div class="col-md-9">
                     <div class="card">
-                        <div class="card-header p-2">
+                        <div class="card-header">
                             @if(Session::has('success')) 
                              <div class="alert alert-success" role="alert" id="messageModal">
                                 {{ Session::get('success') }}
@@ -50,7 +53,7 @@
                             @endif
                             <ul class="nav nav-pills">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="#listofpets" data-toggle="tab">Vet Info</a>
+                                    <label id="pet_name_id">Veterinary Profile</label>
                                 </li>
                                 <!-- <li class="nav-item"><a class="nav-link" href="#change_password" data-toggle="tab">Change Password </a></li> -->
                             </ul>

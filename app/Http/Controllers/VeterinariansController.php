@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Pet;
 use App\Models\User;
+use App\Models\PetType;
+use App\Models\PetBreed;
 use App\Models\Clinic;
 use App\Models\Veterinary;
 use App\Models\user_account;
@@ -15,7 +17,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Sweetalert\Sweetalert;
+use UxWeb\SweetAlert\SweetAlert;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 
 use function PHPUnit\Framework\isFalse;
@@ -87,13 +90,13 @@ class VeterinariansController extends Controller
     
     final function petClassification($customer_id){
 
-        $pet_types = DB::table('pet_types')->get(); //-> retrieve pet types
+        $pet_types = PetType::get(); //-> retrieve pet types
         
-        $pet_breeds = DB::table('pet_breeds')->get(); //-> retrieve breeds 
+        $pet_breeds = PetBreed::get(); //-> retrieve breeds 
 
-        $pet_clinics = DB::table('clinic')->get(); // -> retrieve vet clinics
+        $pet_clinics = Clinic::get(); // -> retrieve vet clinics
 
-        $custInfo = DB::table('customers')->where('customer_id', '=', $customer_id)->first(); // -> retrieve info customer
+        $custInfo = Customer::where('customer_id', '=', $customer_id)->first(); // -> retrieve info customer
 
         return view('veterinary.registerpet', compact('custInfo','pet_types','pet_breeds','pet_clinics'));
     }
@@ -107,12 +110,11 @@ class VeterinariansController extends Controller
 
     function userViewPatient($customer_id){
         $Owners = DB::table('pets')
-        ->join('pet_types','pet_types.type_id','=','pets.pet_type_id')
+        ->join('pet_types','pet_types.id','=','pets.pet_type_id')
         ->join('pet_breeds','pet_breeds.breed_id','=','pets.pet_breed_id')
         ->join('customers','customers.customer_id','=','pets.customer_id')
-        ->join('clinic','clinic.clinic_id','=','pets.clinic_id')
-        ->select('pets.pet_id','pets.pet_name','pets.pet_gender','pets.pet_birthday','pets.pet_notes','pets.pet_bloodType','pets.pet_registeredDate', 'pet_types.type_name',
-        'pet_breeds.breed_name','pets.pet_isActive','pets.customer_id', DB::raw("CONCAT(customer_fname,' ', customer_lname) AS customer_name"),
+        ->join('clinics','clinics.clinic_id','=','pets.clinic_id')
+        ->select('pets.*','pet_types.*','customers.*','clinics.*', DB::raw("CONCAT(customer_fname,' ', customer_lname) AS customer_name"),
         'clinic.clinic_name')
         ->where('pets.customer_id','=', $customer_id)->get();
 
@@ -226,8 +228,7 @@ class VeterinariansController extends Controller
 
     final function saveCustomer(Request $request, $customer_id){
 
-         $NoActionQuery = DB::table('customers')
-        ->where('customer_fname','=', $request->customer_fname)
+         $NoActionQuery = Customer::where('customer_fname','=', $request->customer_fname)
         ->where('customer_lname','=', $request->customer_lname)
         ->where('customer_mname','=', $request->customer_mname)
         ->where('customer_mobile','=', $request->customer_mobile)
@@ -243,12 +244,10 @@ class VeterinariansController extends Controller
         ->where('customer_isActive','=', $request->isActive)->first();
 
         if($NoActionQuery) {
-            return redirect('veterinary/viewvetcustomer')->with('warning','No changes');
+            alert()->message('Change something to update');
+            return back();
         }else{
-
-
-            DB::table('customers')
-            ->where('customer_id', '=', $customer_id)
+            Customer::where('customer_id', '=', $customer_id)
             ->update(array(
                 'customer_fname'=>$request->customer_fname,
                 'customer_lname'=>$request->customer_lname,
@@ -266,8 +265,8 @@ class VeterinariansController extends Controller
                 'customer_isActive'=>$request->isActive
             ));
             //UPDATE CUSTOMER INFO
-
-             return redirect('veterinary/viewvetcustomer')->with('success','Customer has been updated successfuly');
+            alert()->success('Customer has been updated Successfully','Updated');
+             return redirect('/veterinary/customers');
 
         }
    }
@@ -281,7 +280,8 @@ class VeterinariansController extends Controller
         //QUERY IF THE PET IS ALREADY REGISTER
 
         if ($checkQuery) {
-            return back()->with('fail', 'Pet is Already Registered');
+            alert()->warning('Pet is already registered in the clinic','Existing');
+            return back();
         }else{
 
             // PET ADD VALIDATION -START
@@ -300,7 +300,7 @@ class VeterinariansController extends Controller
 
 
             // INSERT PET -START
-            DB::table('pets')->insert([
+            Pet::insert([
                 'pet_name'=>$request->pet_name,
                 'pet_gender'=>$request->pet_gender,
                 'pet_birthday'=>$request->pet_birthday,
@@ -317,102 +317,42 @@ class VeterinariansController extends Controller
                 
             ]);
             //INSERT PET -END
-
+            
             $customer_id = $request->customer_id;
-            return redirect()->route('custownerpatient', ['customer_id'=> base64_encode($customer_id)])->with('success', 'Patient has been added succesfully');
+            alert()->success('Pet Patient has been registered succesfully','Registered');
+            return redirect()->route('veterinary.viewpatient', ['customer_id'=> base64_encode($customer_id)]);
         }
 
     }
 
     final function deleteCustomers($customer_id){ 
-        $checkPetCustomer = DB::table('pets')->where('customer_id', '=', $customer_id)->first();
+        $checkPetCustomer = Pet::where('customer_id', '=', $customer_id)->first();
 
         if ($checkPetCustomer) {
-            return back()->with('error','You cant delete a customer does have a register pet');
+            alert()->error('Customer has registered pets','Fail');
+            return back();
         }else{
-            DB::table('customers')->where('customer_id', $customer_id)->delete();// DELETE CUSTOMERS
-            return back()->with('customer_deleted','Customer has been deleted succesfully');
+            Customer::where('customer_id', $customer_id)->delete();// DELETE CUSTOMERS
+            alert()->success('Customer has been deleted succesfully','Deleted');
+            return back();
         }
        
     }
 
     //<------------- ---End of customer crud operations----------------------->//
 
-
-    function getPetIDVet($pet_id){
-        $editPet = DB::table('pets')->where('pet_id', '=', $pet_id)->first();
-        $getTypePet = DB::table('pet_types')->get();
-        $getBreedPet = DB::table('pet_breeds')->get();
-        $getClinicPet = DB::table('clinic')->get();
-        $getOwnerPet = DB::table('customers')->get();
-        
-        return view('veterinary.vieweditpatient', compact('editPet', 'getTypePet', 'getBreedPet','getClinicPet','getOwnerPet'));
-    }
     
     function getPetID($pet_id){
 
-        $editPet = DB::table('pets')->where('pet_id', '=', $pet_id)->first();
-        $getTypePet = DB::table('pet_types')->get();
-        $getBreedPet = DB::table('pet_breeds')->get();
-        $getClinicPet = DB::table('clinic')->get();
-        $getOwnerPet = DB::table('customers')->get();
+        $editPet = Pet::where('pet_id', '=', $pet_id)->first();
+        $getTypePet = PetType::get();
+        $getBreedPet = PetBreed::get();
+        $getClinicPet = Clinic::get();
+        $getOwnerPet = Customer::get();
         
         return view('veterinary.vieweditpatient', compact('editPet', 'getTypePet', 'getBreedPet','getClinicPet','getOwnerPet'));
     }
 
-    function savePetVet(Request $request, $pet_id){
-
-        $breed = $request->pet_breed_id;
-        $gender = $request->pet_gender;
-        $birthday = $request->pet_birthday;
-        $notes = $request->pet_notes;
-        $bloodtype = $request->pet_bloodType;
-        $regDate = $request->pet_registeredDate;
-        $type = $request->pet_type_id;
-        $name = $request->pet_name;
-        $customer = $request->customer_id;
-        $clinic = $request->clinic_id;
-        $status = $request->pet_isActive;
-
-
-        $NoActionQuery = DB::table('pets')
-        ->where('pet_name','=', $request->pet_name)
-        ->where('pet_gender','=', $request->pet_gender)
-        ->where('pet_birthday','=', $request->pet_birthday)
-        ->where('pet_notes','=', $request->pet_notes)
-        ->where('pet_bloodType','=', $request->pet_bloodType)
-        ->where('pet_registeredDate','=',$request->pet_registeredDate)
-        ->where('pet_type_id','=', $request->pet_type_id)
-        ->where('pet_breed_id','=', $request->pet_breed_id)
-        ->where('customer_id', '=', $request->customer_id)
-        ->where('clinic_id','=', $request->clinic_id)
-        ->where('pet_isActive','=', $request->pet_isActive)->first();
-
-
-        if ($NoActionQuery) {
-            return redirect('veterinary/viewvetpatient')->with('warning','Nothing Changes');
-        }else{
-            DB::table('pets')
-        ->where('pet_id', $pet_id)
-        ->update([
-            'pet_name'=>$request->pet_name,
-            'pet_gender'=>$request->pet_gender,
-            'pet_birthday'=>$request->pet_birthday,
-            'pet_notes'=>$request->pet_notes,
-            'pet_bloodType'=>$request->pet_bloodType,
-            'pet_registeredDate'=>$request->pet_registeredDate,
-            'pet_type_id'=>$request->pet_type_id,
-            'pet_breed_id'=>$request->pet_breed_id,
-            'customer_id'=>$request->customer_id,
-            'clinic_id'=>$request->clinic_id,
-            'pet_isActive'=>$request->pet_isActive
-        ]);
-
-            $customer_id = $request->customer_id;
-
-            return redirect('veterinary/viewvetpatient')->with('success','Patients has been updated sucessfully');
-        }
-    }
     function savePet(Request $request, $pet_id){
 
 
@@ -433,7 +373,8 @@ class VeterinariansController extends Controller
         ->first();
 
         if ($NoActionQuery) {
-            return redirect()->route('custownerpatient', ['customer_id'=> base64_encode($customer)])->with('warning','Nothing Changes');
+            alert()->message('Change something to update');
+            return back();
         }else{
 
             DB::table('pets')
@@ -454,8 +395,8 @@ class VeterinariansController extends Controller
         ]);
 
             $customer_id = $request->customer_id;
-
-            return redirect()->route('custownerpatient', ['customer_id'=> base64_encode($customer_id)])->with('success','Patients has been updated sucessfully');
+            alert()->success('Patients has been updated sucessfully','Success');
+            return redirect()->route('veterinary.viewpatient', ['customer_id'=> base64_encode($customer_id)]);
         }
     }
 
@@ -464,19 +405,19 @@ class VeterinariansController extends Controller
         return back()->with('patients_deleted','Patients has been deleted sucessfully');
     }
     final function deleteCustPatients($pet_id){
-        DB::table('pets')->where('pet_id', $pet_id)->delete(); //DELETE PATIENTS from viewpatient OR PETS
-        return back()->with('error','Patients has been deleted sucessfully');
+        Pet::where('pet_id', $pet_id)->delete(); //DELETE PATIENTS from viewpatient OR PETS
+
+        alert()->warning('Patients has been deleted sucessfully','Error');
+        return back();
     }
 
     final function patientsOwnerView($customer_id){
-       $PatientOwner = DB::table('pets') 
-        ->join('pet_types','pet_types.type_id','=','pets.pet_type_id')
+       $PatientOwner = Pet::join('pet_types','pet_types.id','=','pets.pet_type_id')
         ->join('pet_breeds','pet_breeds.breed_id','=','pets.pet_breed_id')
         ->join('customers','customers.customer_id','=','pets.customer_id')
-        ->join('clinic','clinic.clinic_id','=','pets.clinic_id')
-        ->select('pets.pet_id','pets.pet_name','pets.pet_gender','pets.pet_birthday','pets.pet_notes','pet_DP','pets.pet_bloodType','pets.pet_registeredDate', 'pet_types.type_name',
-        'pet_breeds.breed_name','pets.pet_isActive','pets.customer_id', DB::raw("CONCAT(customer_fname,' ', customer_lname) AS customer_name",),DB::raw("CONCAT(customer_blk,' ', customer_street,' ', customer_subdivision,' ',
-        customer_barangay,' ',customer_city,' ', customer_zip) AS customer_address"),'clinic.clinic_name')
+        ->join('clinics','clinics.clinic_id','=','pets.clinic_id')
+        ->select('pets.*','pet_breeds.*','customers.*','clinics.*','pet_types.*',DB::raw("CONCAT(customer_fname,' ', customer_lname) AS customer_name",),DB::raw("CONCAT(customer_blk,' / ', customer_street,' / ', customer_subdivision,' / ',
+        customer_barangay,' / ',customer_city,' / ', customer_zip) AS customer_address"))
         ->where('pets.customer_id','=', base64_decode($customer_id))->get();
 
         return view('veterinary/viewpatient', ['PatientOwner'=>$PatientOwner]);
@@ -560,8 +501,8 @@ class VeterinariansController extends Controller
 
     public function saveProfile(Request $request, $vet_id, $user_id){
 
-        $NoActionQueryUser = User::where('username', '=', $request->user_name)
-                                 ->where('phone', '=', $request->user_mobile) // query for not changes user_account
+        $NoActionQueryUser = User::where('phone', '=', $request->user_mobile)
+                                 ->where('username', '=', $request->user_name) // query for not changes user_account
                                  ->where('email', '=', $request->user_email)->first();
 
         $NoActionQueryVet = Veterinary::where('vet_fname','=', $request->vet_fname)
@@ -577,7 +518,8 @@ class VeterinariansController extends Controller
                                       ->where('vet_zip','=', $request->vet_zip)->first();
 
         if($NoActionQueryVet && $NoActionQueryUser) {
-            return back()->with('warning', 'No changes');  // no actions
+            alert()->message('No Changes');
+            return back();  // no actions
         }
     
         User::where('id', $user_id)
@@ -608,21 +550,39 @@ class VeterinariansController extends Controller
     }
 
     public function changePassword(Request $request, $user_id){
+        $request->validate([
+            'oldpassword' => 'required | min:6 | max: 30',
+            'new_pass' => 'required | min:6 | max: 30',
+            'check_pass' => 'required | min:6 | max: 30 | same:new_pass',
+        ]);
 
-        $checkOldPass = DB::table('user_accounts')->where('user_id','=', $user_id)->first();
-
-        if ($request->oldpassword == $checkOldPass->user_password) {
-
-            DB::table('user_accounts')
-            ->where('user_id', $checkOldPass->user_id)
-            ->update([
-                'user_password'=>$request->new_pass
+        $currentUser = auth()->user();
+        if (Hash::check($request->oldpassword,$currentUser->password)) {
+            $currentUser->update([
+                'password' => Hash::make($request->new_pass)
             ]);
-
-             return redirect('veterinary/profilevet')->with('success', 'password successfully changed');
+            alert()->success('Password successsfully updated');
+            return back();
         }else{
-            return back()->with('error', 'wrong password');
+            alert()->error('Enter valid password','Not Matched');
+            return back();
         }
+
+
+        // $checkOldPass = DB::table('users')->where('id','=', $user_id)->first();
+
+        // if ($request->oldpassword == $checkOldPass->password) {
+
+        //     DB::table('users')
+        //     ->where('id', $checkOldPass->id)
+        //     ->update([
+        //         'password'=>$request->new_pass
+        //     ]);
+        //      alert()->success('Password successfully Updated', 'Password Changed');
+        //      return redirect('/veterinary/profilevet');
+        // }else{
+        //     return back();
+        // }
 
 
     }
@@ -658,5 +618,10 @@ class VeterinariansController extends Controller
     final function showRegisterPage(){
         return view('veterinary/registercustomer');
     }
+
+    final function showViewPatientPage(){
+        return view('veterinary/viewpatient');
+    }
+
 
 }

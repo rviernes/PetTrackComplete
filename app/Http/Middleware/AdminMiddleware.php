@@ -21,11 +21,9 @@ class AdminMiddleware
             return $next($request);
         }
         elseif(auth()->user()->usertype == "customer"){
-            alert()->warning('You do not have access to that page','Customer Denied');
             return back();
         }
         elseif (auth()->user()->usertype == "veterinary") {
-            alert()->warning('You do not have access to that page','Veterinary Denied');
             return back();
         }
         

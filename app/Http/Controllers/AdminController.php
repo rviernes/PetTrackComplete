@@ -30,7 +30,11 @@ use Illuminate\Validation\Rule;
 class AdminController extends Controller
 {
     function showDashboard(){
-        return view('admin.dashboard');
+        $countVeterinarians = DB::table('veterinaries')->count();
+        $countPet = Pet::count();
+        $countCustomers = Customer::count();
+        $countClinic = Clinic::count();
+        return view('admin.dashboard', compact('countVeterinarians','countPet','countCustomers','countClinic'));
     }
 
     final function logout(){
@@ -39,7 +43,7 @@ class AdminController extends Controller
     }
 
     public function admin_CountData(){
-        $countVeterinarians = Veterinary::count();
+        $countVeterinarians = DB::table('veterinaries')->count();
         $countPet = Pet::count();
         $countCustomers = Customer::count();
         $countClinic = Clinic::count();
@@ -152,7 +156,7 @@ class AdminController extends Controller
     public function userSearch(Request $request){
         $search = $request->get('userSearch');
 
-        $userTypes_name = User::where('username','LIKE','%'.$search.'%')->get();
+        $userTypes_name = User::where('username','LIKE','%'.$search.'%')->paginate(8);
 
         return view('admin.users.CRUDusers', compact('userTypes_name'));
     }
@@ -751,10 +755,11 @@ class AdminController extends Controller
     }
 
     public function editUserDetails(Request $request){
+        
 
         $this->validate($request, array(
             'user_name' => "required | min:5 | max: 255 | unique:users,username,$request->user_id",
-            'user_email' => "required | email | unique:users, email, $request->user_id",
+            'user_email' => "required | email | unique:users,email, $request->user_id",
         ));
 
         $user = User::findOrFail($request->id);
@@ -762,7 +767,7 @@ class AdminController extends Controller
         $user->email = trim($request->user_email);
         $user->save();
         
-        alert()->success('Success');
+        alert()->success('User Updated Successfully','Updated');
         return redirect('/admin/CRUDusers');
     }
 
@@ -811,7 +816,7 @@ class AdminController extends Controller
         $countAdmin = DB::table('users')->select(DB::raw('COUNT(*) as count'))->where('usertype', 'veterinary')->pluck('count')->first();
         // $deleteVet = 
 
-        dd($countAdmin); die();
+        // dd($countAdmin); die();
 
         if ($custQuery) {
             alert()->warning('Customer Has Pets!', 'Cannot Delete');
@@ -832,7 +837,7 @@ class AdminController extends Controller
                 }
             }
         }
-                alert()->success('Delete Account', 'Account Successfully Deleted');
+                alert()->success('Account Successfully Deleted', 'Deleted');
                 return back();
     }
 

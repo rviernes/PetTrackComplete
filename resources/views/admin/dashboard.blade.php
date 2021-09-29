@@ -4,7 +4,6 @@
 
 @include('sweet::alert')
 
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
 
@@ -81,12 +80,12 @@
               <!-- small box -->
               <div class="small-box bg-info">
                 <div class="inner">
-                  <h3></h3>
+                  <h3>{{ $countVeterinarians }}</h3>
   
                   <p>Veterinarians</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-bag"></i>
+                  <i class="ion ion-person"></i>
                 </div>
                 <a href="/admin/CRUDvet" class="small-box-footer">More info<i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -96,12 +95,12 @@
               <!-- small box -->
               <div class="small-box bg-success">
                 <div class="inner">
-                  <h3><sup style="font-size: 20px"></sup></h3>
+                  <h3>{{ $countPet }}<sup style="font-size: 20px"></sup></h3>
   
                   <p>Pets</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-stats-bars"></i>
+                  <i class="ion ion-ios-paw"></i>
                 </div>
                 <a href="/admin/CRUDpet" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -111,12 +110,12 @@
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3></h3>
+                  <h3>{{ $countCustomers }}</h3>
   
                   <p>Customers</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-person-add"></i>
+                  <i class="ion ion-ios-people"></i>
                 </div>
                 <a href="/admin/CRUDcustomers" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -126,12 +125,12 @@
               <!-- small box -->
               <div class="small-box bg-danger">
                 <div class="inner">
-                  <h3></h3>
+                  <h3>{{ $countClinic }}</h3>
   
                   <p>Clinic</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
+                  <i class="ion ion-heart"></i>
                 </div>
                 <a href="/admin/CRUDclinic" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>

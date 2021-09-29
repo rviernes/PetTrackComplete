@@ -7,46 +7,50 @@
 <script src="https://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script> 
 
-<script>
-    $().ready(function() {
-        $("#confirmed_Password").validate({
-            rules: {
-                
-                oldpassword: {
-                    required: true
-                },
-                new_pass: {
-                    required: true
-                },
-                check_pass:{
-                    required: true,
-                    equalTo: "#new_pass"
-                }
-            },
-            messages: {
-
-                oldpassword: {
-                    required: "Password is required"
-                },
-                new_pass: {
-                    required: "New password is required"
-                },
-                check_pass: {
-                    required: "Confirmed new password is required",
-
-                    equalTo: "Please enter the same password as above"
-                }
-
-            }
-        });
-    });
-</script>
 <style>
     label.error {
         color: #dc3545;
         font-size: 14px;
     }
 </style>
+
+<script>
+    $().ready(function() {
+    $('#confirmed_Password').validate({
+        ignore: '.ignore',
+        errorClass: 'invalid',
+        validClass: 'success',
+        rules: {
+            oldpassword: {
+                required: true,
+                minlength: 6,
+                maxlength: 30
+            },
+            new_pass: {
+                required: true,
+                minlength: 6,
+                maxlength: 30
+            },
+            check_pass: {
+                required: true,
+                equalTo: '#new_pass'
+            },
+        },
+        messages: {
+            
+            oldpassword: { required: "Input old password" },
+            new_pass: { required: "Input new password"   },
+            check_pass: { required: "Need to confirm new password", equalTo: "Please enter the same password as above"},
+        },
+
+        submitHandler: function(form){
+
+            $.LoadingOverlay("show");
+            form.submit();
+        }
+    });
+    });
+</script>
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -71,18 +75,14 @@
                     </div> @endif
                     
                     <!-- Profile Image -->
-                    <div class="card card-primary card-outline ">
-                        <div class="card-body  box-profile card text-center">
-                            <div class="card text-center">
+                    <div class="card card-primary card-outline " style="padding: 20px;">
                                 <div class="text-center">
                                     <img class="profile-user-img img-fluid img-circle" src="{{asset('vendors/dist/img/han.jpg') }}" alt="Profile Picture">
                                 </div>
+                                <br>
 
-                                <h3 class="profile-username text-center"> {{ $LoggedUserInfo->vet_fname }},{{ $LoggedUserInfo->vet_lname }}</h3>
-                                <a href="custeditProfile" id="change_dp" class="btn btn-primary btn-block"><b>Edit Profile </b></a>
-                            </div>
+                                <h2 class="text-center"> {{ $LoggedUserInfo->vet_fname }}   {{ $LoggedUserInfo->vet_lname }}</h3>
                             <!-- /.row -->
-                        </div>
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
@@ -107,7 +107,10 @@
                                     <a class="nav-link active" href="#personal_info" data-toggle="tab">Personal Information</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#change_password" data-toggle="tab">Change Password </a>
+                                    <a class="nav-link" href="#change_password" data-toggle="tab">Change Credentials </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/veterinary/profilevet">Return to Profile</a>
                                 </li>
                             </ul>
                         </div>
@@ -115,42 +118,11 @@
                         <div class="card-body">
                             <div class="tab-content">
                                 <div class=" active tab-pane" id="personal_info">
-                                    <form class="form-horizontal" action="/veterinary/editprofile/{{ $LoggedUserInfo->vet_id }}/{{ $LoggedUserInfo->id }}" method="POST" action="#" id="InfoForm"> @csrf <table class="table">
+                                    <form class="form-horizontal" action="/veterinary/editprofile/{{ $LoggedUserInfo->vet_id }}/{{ $LoggedUserInfo->id }}" method="POST" id="InfoForm"> @csrf <table class="table">
                                           @csrf  
                                         <thead>
                                                 <tr>
-                                                    <td style="border: none">
-                                                        <div class="form-group row" id="inputBoxes">
-                                                            <label for="inputName">Username:</label>
-                                                            <input type="text" class="form-control" id="user_name" value="{{ $LoggedUserInfo->username }}" name="user_name">
-                                                            <span class="text-danger error-text name_error"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td style="border: none">
-                                                        <div class="form-group row" id="inputBoxes">
-                                                            <label for="inputName">Password:</label>
-                                                            <input type="password" class="form-control" id="user_password" value="" name="user_password">
-                                                            <span class="text-danger error-text name_error"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td style="border: none">
-                                                        <div class="form-group row" id="inputBoxes">
-                                                            <label for="inputName2">Account Mobile No:</label>
-                                                            <input type="number" class="form-control" id="user_mobile" value="{{ $LoggedUserInfo->phone }}" name="user_mobile">
-                                                            <span class="text-danger error-text mobile_error"></span>
-                                                        </div>
-                                                    </td style="border: none">
                                                     
-                                                </tr>
-                                                
-                                                <tr>
-                                                    <td style="border: none">
-                                                        <div class="form-group row" id="inputBoxes">
-                                                            <label for="inputEmail">Email:</label>
-                                                            <input type="email" class="form-control" id="user_email" value="{{ $LoggedUserInfo->email }}" placeholder="Enter Email" name="user_email">
-                                                            <span class="text-danger error-text email_error"></span>
-                                                        </div>
-                                                    </td>
                                                     <td style="border: none">
                                                         <div class="form-group row" id="inputBoxes">
                                                             <label for="inputEmail">First Name:</label>
@@ -165,12 +137,26 @@
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
-                                                </tr>
-                                                <tr>
                                                     <td style="border: none">
                                                         <div class="form-group row" id="inputBoxes">
                                                             <label for="inputEmail">Middle Name:</label>
                                                             <input type="text" class="form-control" id="vet_mname" value="{{ $LoggedUserInfo->vet_mname }}" placeholder="Enter Mobile Name" name="vet_mname">
+                                                            <span class="text-danger error-text email_error"></span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: none">
+                                                        <div class="form-group row" id="inputBoxes">
+                                                            <label for="user_name">Username:</label>
+                                                            <input type="text" class="form-control" id="user_name" value="{{ $LoggedUserInfo->username }}" placeholder="Enter Email" name="user_name">
+                                                            <span class="text-danger error-text email_error"></span>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border: none">
+                                                        <div class="form-group row" id="inputBoxes">
+                                                            <label for="inputEmail">Email:</label>
+                                                            <input type="email" class="form-control" id="user_email" value="{{ $LoggedUserInfo->email }}" placeholder="Enter Email" name="user_email">
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
@@ -181,6 +167,8 @@
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
+                                                </tr>
+                                                <tr>
                                                     <td style="border: none">
                                                         <div class="form-group row" id="inputBoxes">
                                                             <label for="inputEmail">Telephone No:</label>
@@ -188,9 +176,6 @@
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
-                                                    
-                                                </tr>
-                                                <tr>
                                                     <td style="border: none">
                                                         <div class="form-group row" id="inputBoxes">
                                                             <label for="inputEmail">Blk No:</label>
@@ -205,6 +190,8 @@
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
+                                                </tr>
+                                                <tr>
                                                     <td style="border: none">
                                                         <div class="form-group row" id="inputBoxes" >
                                                             <label for="inputEmail">Subdivision:</label>
@@ -212,8 +199,6 @@
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
-                                                </tr>
-                                                <tr>
                                                     <td style="border: none">
                                                         <div class="form-group row" id="inputBoxes">
                                                             <label for="inputEmail">Barangay:</label>
@@ -228,6 +213,8 @@
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
+                                                </tr>
+                                                <tr>
                                                     <td style="border: none">
                                                         <div class="form-group row" id="inputBoxes">
                                                             <label for="inputEmail">Zip Code:</label>
@@ -235,17 +222,24 @@
                                                             <span class="text-danger error-text email_error"></span>
                                                         </div>
                                                     </td>
+                                                    <td style="border: none">
+                                                        <div class="form-group row" id="inputBoxes">
+                                                            <label for="inputName2">Account Mobile No:</label>
+                                                            <input type="number" class="form-control" id="user_mobile" value="{{ $LoggedUserInfo->phone }}" name="user_mobile">
+                                                            <span class="text-danger error-text mobile_error"></span>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             </thead>
                                         </table>
                                         <div style="text-align: center;">
-                                                <button type="submit" class="btn btn-danger" style=""><i class="fas fa-save"></i> Save Changes</button>
+                                                <button type="submit" class="btn btn-success" style=""><i class="fas fa-save"></i> Save Changes</button>
                                         </div>
                                     </form>
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane fade" id="change_password">
-                                    <form class="form-horizontal" id="confirmed_Password" action="/veterinary/changepass/{{ $LoggedUserInfo->user_id }}" method="POST">
+                                        <form class="form-horizontal" id="confirmed_Password" action="/veterinary/changepass/{{ $LoggedUserInfo->id }}/save" method="POST">
                                         @csrf
                                         <div class="form-group row">
                                             <label for="oldpassword" class="col-sm-2 col-form-label">Old Password</label>

@@ -1,15 +1,5 @@
 <!-- Main Sidebar Container -->
-<script>
-  $(document).on('click', '#linkID1', function(e){
-      e.preventDefault();
 
-      if(window.location.href='/admin/CRUDvet'){
-        
-      $('#linkID1').addClass('active');
-      }
-  });
-</script>
-<link rel="stylesheet" href="/styles.css">
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/admin/index/home" class="brand-link">
