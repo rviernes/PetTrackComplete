@@ -4,8 +4,7 @@
   <meta charset="utf-8">
   <meta name="_token" content="{{csrf_token()}}">
   <title>{{ config('app.Name','Admin | Dashboard') }}</title>
-  
-  
+
   <script src="{{ asset('js/app.js') }}"></script>
   
   <!-- Google Font: Source Sans Pro -->

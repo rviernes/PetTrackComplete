@@ -49,56 +49,81 @@
             <td class="project-actions">
               <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#viewModal{{ $owner->pet_id }}">
                 <i class="fas fa-folder"></i>  </a>
-              <a href="/admin/vet/adminEditPatient/{{ $owner->pet_id }}" class="btn btn-info btn-sm">
+              <a href="/admin/adminEditPatient/{{ $owner->pet_id }}" class="btn btn-info btn-sm">
                 <i class="fas fa-pencil-alt"></i>  </a>
               <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ $owner->pet_id }}">
                 <i class="fas fa-trash"></i></button>
             </td>
-          </tr>
-<!-- VIEW MODAL -->
-  <div class="modal" id="viewModal{{ $owner->pet_id }}" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">View Patients</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
+          </tr>{{-- View  modal  --}}
+                    <div class="modal" id="viewModal{{ $owner->pet_id }}" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title">Patient {{$owner->pet_name}} </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                    <h5>Pet name:        <br><strong> {{ $owner->pet_name }}            </strong></h5>
+                                    </div>
+                                    <div class="col-md-4">
+                                    <h5>Gender:          <br><strong> {{ $owner->pet_gender }}          </strong></h5>
+                                    </div>
+                                    <div class="col-md-4">
+                                    <h5>Birthdate: <br><strong> {{ $owner->pet_birthday }}  </strong></h5>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                    <h5>Type:        <br><strong> {{ $owner->type_name }}            </strong></h5>
+                                    </div>
+                                    <div class="col-md-4">
+                                    <h5>Breed:           <br><strong> {{ $owner->breed_name }}          </strong></h5>
+                                    </div>
+                                    <div class="col-md-4">
+                                    <h5>Registered date: <br><strong> {{ $owner->pet_registeredDate }}  </strong></h5>
+                                    </div>
+                                </div>
 
-          <h5>Pet name: <strong> {{ $owner->pet_name }} </strong></h5>
-          <h5>Type: <strong> {{ $owner->type_name }} </strong></h5>
-          <h5>Breed: <strong>{{ $owner->breed_name }}</strong> </h5>
-          <h5>Gender: <strong> {{ $owner->pet_gender }} </strong></h5>
-          <h5>Registered date: <strong> {{ $owner->pet_registeredDate }} </strong></h5>
-          <h5>Address: <strong> {{ $owner->customer_address }} </strong> </h5>
-          <h5>Owner: <strong> {{ $owner->customer_name }} </strong></h5>
-          @if ($owner->pet_isActive == "1")
-          <h5>Status : <strong> ACTIVE </strong></h5>
-          @else
-          <h5>Status : <strong> INACTIVE </strong></h5>
-          @endif
-          
+                                <div class="form-group row">
+                                    <div class="col-md-4">
+                                    <h5>Owner:           <br><strong> {{ $owner->customer_name }} </strong></h5>
+                                    </div>
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-4">
+                                    <h5>Blood type:          <br><strong> {{ $owner->pet_bloodType }}          </strong></h5>
+                                    </div>
+                                </div>
 
-          <h5 style="text-align: center">
-            {!! QrCode::size(150)->eyeColor(0, 255, 255, 255, 0, 0, 0)->generate('name: '.$owner->pet_name.
-              ' Gender: '.$owner->pet_gender.
-              ' Type: '.$owner->type_name.
-              ' Breed: '.$owner->breed_name.
-              ' Registered Date: '. $owner->pet_registeredDate.
-              ' Owner: '.$owner->clinic_name .
-              ' Address: '.$owner->customer_address); !!}
-              <br><strong>Scan Me</strong>
-            </h5> 
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
+                                <div style="text-align: center;">
+                                    <div class="col-md-12" style="color: blue;">
+                                    <h5>Pet prescription:         <strong> "{{ $owner->pet_notes }}"    </strong>
+                                    </div>
+                                <br>
+                                    <h6>Address:         <strong> {{ $owner->customer_address }}    </strong></h5>
+                                    @if ($owner->pet_isActive == "1") 
+                                    <h5>Status : <strong> Active </strong></h5>
+                                    @else 
+                                    <h5>Status : <strong> Inactive </strong></h5> 
+                                    @endif 
+                                    <h5 style="text-align: center;"> 
+                                        {!! QrCode::size(150)->eyeColor(0, 255, 255, 255, 0, 0, 0)->generate('name: '.$owner->pet_name. ' Gender: '.$owner->pet_gender. ' Type: '.$owner->type_name. ' Breed: '.$owner->breed_name. ' Registered Date: '. $owner->pet_registeredDate. ' Owner: '.$owner->clinic_name . ' Address: '.$owner->customer_address); !!} <br>
+                                        <strong>Scan Me</strong>
+                                    </h5>
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- end view modal --}}
 
 <!-- DELETE MODAL -->
       <div class="modal fade" id="deleteModal{{ $owner->pet_id }}" tabindex="-1" role="dialog" aria-hidden="true">
@@ -110,7 +135,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form action=" /admin/customer/viewPatient/delete/{{ $owner->pet_id }} " method="GET">
+            <form action=" /admin/viewPatient/delete/{{ $owner->pet_id }} " method="GET">
               {{ csrf_field() }}
               <div class="modal-body">
                 <h3>Confirm data deletion of pet, <strong>{{ $owner->pet_name }}</strong>?</h3>

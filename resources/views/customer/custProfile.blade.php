@@ -1,4 +1,4 @@
-@extends('layoutscustomer.app')
+@extends('layoutsCustomer.app')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> @section('content') <div class="content-wrapper">
     <section class="content-header">
         <div class="container-fluid">
@@ -6,25 +6,6 @@
                 <div class="col-sm-6">
                     <h1>Customer Profile</h1>
                 </div>
-            
-            <!-- Profile Image -->
-          
-            <!-- <div class="card card-primary card-outline">
-              <div class="card-body box-profile">
-                <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle"
-                       src="{{$LoggedUserInfo->customer_DP }}"
-                       alt="image">
-                </div>
-              <br>  -->
-<!-- 
-               <h5 style="text-align: center">{{ $LoggedUserInfo->customer_fname }} {{ $LoggedUserInfo->customer_mname }} {{ $LoggedUserInfo->customer_lname }} </h5> 
-
-              <br>
-              <a href="custAcc" class="btn btn-primary btn-block"><b>Edit Profile </b></a>
-            </div>
-        </div> -->
-        <!-- /.container-fluid -->
     </section>
     <!-- Main content -->
     <section class="content">
@@ -39,7 +20,7 @@
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle" src="{{ $LoggedUserInfo->customer_DP }}}" alt="Profile Pic">
+                                <img class="profile-user-img img-fluid img-circle" src="" alt="Profile Pic">
                             </div>
                             <br>
                             <h5 style="text-align: center">{{ $LoggedUserInfo->customer_fname }} {{ $LoggedUserInfo->customer_mname }} {{ $LoggedUserInfo->customer_lname }} </h5>

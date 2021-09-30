@@ -79,7 +79,13 @@ class AdminController extends Controller
 
     public function petSearch(Request $request){
         $search = $request->get('petSearch');
-        $Pet = DB::table('pets')->select('*')->where('pet_name', 'LIKE', '%'.$search.'%')->paginate('8');
+        $Pet = Pet::join('pet_types','pet_types.id','pets.pet_type_id')
+                  ->join('pet_breeds','pet_breeds.breed_id', 'pets.pet_breed_id')
+                  ->join('clinics','clinics.clinic_id', 'pets.clinic_id')
+                  ->join('customers','customers.customer_id', 'pets.customer_id')
+                  ->select('pet_types.*','pet_breeds.*','pets.*','clinics.*','customers.*')
+                  ->where('pet_name', 'LIKE', '%'.$search.'%')
+                  ->paginate('8');
         return view('admin.pet.CRUDpet', compact('Pet'));
     }
 
@@ -296,7 +302,7 @@ class AdminController extends Controller
     }
 
     final function admin_PatientsOwnerViews($customer_id){
-        $PatientOwner = Pets::join('pet_types','pet_types.id','=','pets.pet_type_id')
+        $PatientOwner = Pet::join('pet_types','pet_types.id','=','pets.pet_type_id')
                             ->join('pet_breeds','pet_breeds.breed_id','=','pets.pet_breed_id')
                             ->join('customers','customers.customer_id','=','pets.customer_id')
                             ->join('clinics','clinics.clinic_id','=','pets.clinic_id')
@@ -316,20 +322,20 @@ class AdminController extends Controller
         //  customer_barangay,' ',customer_city,' ', customer_zip) AS customer_address"),'clinic.clinic_name')
         //  ->where('pets.customer_id','=', $customer_id)->get();
  
-         return view('dashboard.admin.customer.viewPatient', compact('PatientOwner'));
+         return view('admin.customer.viewPatient', compact('PatientOwner'));
     }
 
     final function admin_veteditcustomersID($customer_id){
-        $vetcust_id = Customers::where('customer_id','=',$customer_id)->first();
+        $vetcust_id = Customer::where('customer_id','=',$customer_id)->first();
 
-        return view('dashboard.admin.customer.customerEdit', compact('vetcust_id'));
+        return view('admin.customer.customerEdit', compact('vetcust_id'));
     }
 
 
     final function admin_SaveCustomers(Request $request, $customer_id){
         $checkQuery = 
 
-        Customers::where('customer_fname','=',$request->customer_fname)
+        Customer::where('customer_fname','=',$request->customer_fname)
                  ->where('customer_lname','=', $request->customer_lname)
                  ->where('customer_mname','=', $request->customer_mname)
                  ->where('customer_mobile','=', $request->customer_mobile)
@@ -361,7 +367,7 @@ class AdminController extends Controller
         // ->where('customer_isActive','=', $request->isActive)->first();
 
         if($checkQuery) {
-            alert()->message('Change something to update','Same Values');
+            alert()->message('Change something to update');
             return back();
         }else{
             DB::table('customers')
@@ -390,11 +396,11 @@ class AdminController extends Controller
     }
 
     final function admin_DeleteCustomer2($customer_id){ 
-        $getUserID = Customers::where('customer_id', $customer_id)->pluck('id')->first();
+        $getUserID = Customer::where('customer_id', $customer_id)->pluck('id')->first();
         $getType = User::where('id',$getUserID)->pluck('usertype')->first();
-        $custID = Customers::where('id',$getUserID)->pluck('customer_id')->first();
+        $custID = Customer::where('id',$getUserID)->pluck('customer_id')->first();
         $custQuery = Pet::where('customer_id', $custID)->first();
-        $countAdmin = user::where('usertype','admin')->count();
+        $countAdmin = User::where('usertype','admin')->count();
         // $deleteVet = DB::table('veterinary')->where('user_id', $getUserID)->delete();
 
         if ($custQuery) {
@@ -840,6 +846,82 @@ class AdminController extends Controller
                 alert()->success('Account Successfully Deleted', 'Deleted');
                 return back();
     }
+
+
+    function admin_savePetVet(Request $request, $pet_id){
+        $breed = $request->pet_breed_id;
+        $gender = $request->pet_gender;
+        $birthday = $request->pet_birthday;
+        $notes = $request->pet_notes;
+        $bloodtype = $request->pet_bloodType;
+        $regDate = $request->pet_registeredDate;
+        $type = $request->pet_type_id;
+        $name = $request->pet_name;
+        $customer = $request->customer_id;
+        $clinic = $request->clinic_id;
+        $status = $request->pet_isActive;
+
+        $NoActionQuery = Pet::where('pet_name','=', $request->pet_name)
+        ->where('pet_gender','=', $request->pet_gender)
+        ->where('pet_birthday','=', $request->pet_birthday)
+        ->where('pet_notes','=', $request->pet_notes)
+        ->where('pet_bloodType','=', $request->pet_bloodType)
+        ->where('pet_registeredDate','=',$request->pet_registeredDate)
+        ->where('pet_type_id','=', $request->pet_type_id)
+        ->where('pet_breed_id','=', $request->pet_breed_id)
+        ->where('customer_id', '=', $request->customer_id)
+        ->where('clinic_id','=', $request->clinic_id)
+        ->where('pet_isActive','=', $request->pet_isActive)->first();
+
+        if ($NoActionQuery) {
+            alert()->message('Input something to change');
+            return back();
+        }else{
+            Pet::where('pet_id', $pet_id)
+               ->update([
+                   'pet_name'=>$request->pet_name,
+                   'pet_gender'=>$request->pet_gender,
+                   'pet_birthday'=>$request->pet_birthday,
+                   'pet_notes'=>$request->pet_notes,
+                   'pet_bloodType'=>$request->pet_bloodType,
+                   'pet_registeredDate'=>$request->pet_registeredDate,
+                   'pet_type_id'=>$request->pet_type_id,
+                   'pet_breed_id'=>$request->pet_breed_id,
+                   'customer_id'=>$request->customer_id,
+                   'clinic_id'=>$request->clinic_id,
+                   'pet_isActive'=>$request->pet_isActive
+               ]);
+
+            $id = $request->customer_id;
+            alert()->success('Pet has been updated sucessfully','Updated!');
+            return redirect()->route('admin.adminPetView', ['customer_id'=>$request->customer_id]);
+        }
+
+    }
+
+
+    function admin_getPetID($pet_id){
+        $pluckID = Pet::where('pet_id', $pet_id)->pluck('customer_id')->first();
+        $getCustID = Customer::where('customer_id','=', $pluckID)->first();
+        $editPet = Pet::where('pet_id', '=', $pet_id)->first();
+        $getTypePet = PetType::get();
+        $getBreedPet = PetBreed::get();
+        $getClinicPet = Clinic::get();
+        $getOwnerPet = Customer::get();
+        
+        return view('admin.vet.adminEditPatient', compact('editPet', 'getTypePet', 'getBreedPet','getClinicPet','getOwnerPet', 'getCustID'));
+    }
+
+
+    function admin_DeletePet($pet_id){
+        $delPet = Pet::where('pet_id',$pet_id)->delete();
+        $getPetName = Pet::select('pet_name')->where('pet_id',$pet_id)->first();
+
+        alert()->success('Pet info deleteted Successfully. Goodbye!', 'Successfully Deleted!');
+        return back();
+    }
+
+    
 
 
 }

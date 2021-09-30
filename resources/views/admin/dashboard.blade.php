@@ -3,10 +3,8 @@
 @section('content')
 
 @include('sweet::alert')
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-
 <br>
 <div class="card">
 <div class="card card-success">

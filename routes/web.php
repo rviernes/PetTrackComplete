@@ -21,8 +21,10 @@ use App\Http\Controllers\VeterinariansController;
 |
 */
 
+Route::group(['middleware' => ['revalidate']], function() {
 Route::get('/', function () {
     return view('auth/login');
+});
 });
 
 
@@ -33,45 +35,55 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::prefix('admin')->name('admin.')->group(function() {
 
-    Route::group(['middleware' => ['auth','admin']], function() {
+    Route::group(['middleware' => ['auth','admin','revalidate']], function() {
 
-        Route::get('/dashboard', [AdminController::class, 'showDashboard'])->name('dashboard');
-        Route::get('/CRUDvet', [AdminController::class, 'getAllVet'])->name('vet.home');
-        Route::get('/CRUDpet', [AdminController::class, 'petSearch'])->name('petsearch');
-        Route::get('/CRUDpettype', [AdminController::class, 'petTypeSearch'])->name('pettypesearch');
-        Route::get('/CRUDpetbreed', [AdminController::class, 'breedSearch'])->name('breedsearch');
-        Route::get('/CRUDcustomers', [AdminController::class, 'customerSearch2'])->name('custsearch');
-        Route::get('/CRUDclinic', [AdminController::class, 'clinicSearch'])->name('clinicsearch');
-        Route::get('/CRUDusers', [AdminController::class, 'userSearch'])->name('usersearch');
-        Route::get('/CRUDpettype/Add', [AdminController::class, 'addType'])->name('addtype');
-        Route::post('/CRUDpettype/Add/Save', [AdminController::class, 'addPetType'])->name('addpettype'); 
-        Route::get('/pet/CRUDpettype/Edit/{id}',[AdminController::class,'getTypeID']);
-        Route::post('/pet/CRUDpettype/Edit/{id}/Save',[AdminController::class,'saveType']);
-        Route::get('/pet/CRUDpettype/Delete/{type_id}',[AdminController::class,'deleteType'])->name('deleteType');
-        Route::get('/pet/CRUDpetbreed/Add', [AdminController::class, 'viewAddBreed'])->name('addbreed'); 
-        Route::post('/pet/CRUDpetbreed/Add/Save', [AdminController::class, 'AddBreed'])->name('addbreed');
-        Route::get('/pet/CRUDpetbreed/Edit/{breed_id}',[AdminController::class,'getBreedID']); 
-        Route::post('/pet/CRUDpetbreed/Edit/{breed_id}/Save',[AdminController::class,'saveBreed']);
-        Route::get('/pet/CRUDpetbreed/Delete/{breed_id}',[AdminController::class,'deleteBreed'])->name('breed_deleted');
-        Route::get('/CRUDclinic/register',[AdminController::class,'viewCLinic']);
-        Route::get('/CRUDvet/{clinic_id}',[AdminController::class, 'admin_viewVetDetails'])->name('clinicvet');
-        Route::get('/CRUDclinic/Edit/{clinic_id}',[AdminController::class, 'admin_EditClinic'])->name('editclinic');
-        Route::post('/CRUDclinic/Edit/{clinic_id}/save',[AdminController::class,'admin_EditClinicSubmit'])->name('editclinicsubmit');
-        Route::get('/CRUDclinic/delete/{clinic_id}',[AdminController::class, 'deleteClinic'])->name('deleteclinic');
-        Route::get('/CRUDclinic/regVet/{clinic_id}', [AdminController::class, 'admin_AddVetID'])->name('display');
-        Route::post('/CRUDclinic/regVet/save', [AdminController::class, 'admin_AddVeterinarian'])->name('addveterinarian');
-        Route::post('/clinic/CRUDclinic/addClinic/save',[AdminController::class,'admin_AddClinicSubmit'])->name('addclinicsubmit');
-        Route::get('/CRUDvet/Edit/{vet_id}',[AdminController::class, 'admin_GetVet'])->name('getvet');
-        Route::post('/CRUDvet/Edit/{vet_id}/Save',[AdminController::class,'admin_EditVetDetails'])->name('editvetdetails');
-        Route::get('/CRUDvet/Delete/{id}', [AdminController::class, 'admin_DeleteVets'])->name('delete');
-        Route::get('/CRUDusers/Edit/{id}',[AdminController::class,'admin_GetUsers'])->name('getusers');
-        Route::POST('/CRUDusers/Edit/{id}/save',[AdminController::class,'editUserDetails'])->name('edituserdetails');
-        Route::get('/CRUDusers/Add', [AdminController::class, 'viewAddUser'])->name('viewadduser');
-        Route::get('/CRUDusers/delete/{id}',[AdminController::class, 'admin_DeleteUsers'])->name('deleteusers');
+        Route::get('/dashboard', [AdminController::class, 'showDashboard'])->name('dashboard')->middleware('prevent')->middleware('revalidate');
+        Route::get('/CRUDvet', [AdminController::class, 'getAllVet'])->name('vet.home')->middleware('prevent');
+        Route::get('/CRUDpet', [AdminController::class, 'petSearch'])->name('petsearch')->middleware('prevent');
+        Route::get('/CRUDpettype', [AdminController::class, 'petTypeSearch'])->name('pettypesearch')->middleware('prevent');
+        Route::get('/CRUDpetbreed', [AdminController::class, 'breedSearch'])->name('breedsearch')->middleware('prevent');
+
+        Route::get('/CRUDcustomers', [AdminController::class, 'customerSearch2'])->name('custsearch')->middleware('prevent');
+        Route::get('/customerEdit/{customer_id}',[AdminController::class, 'admin_veteditcustomersID']);
+        Route::post('/customerEdit/{customer_id}/save',[AdminController::class, 'admin_SaveCustomers'])->name('savecusts');
+        Route::get('/viewPatient/delete/{pet_id}',[AdminController::class, 'admin_DeletePet'])->name('deletepet');
         
-        Route::POST('/CRUDusers/Add/Save',[AdminController::class,'addAdminSubmit'])->name('addadminsubmit');
+        Route::get('/viewPets/{customer_id}',[AdminController::class, 'admin_PatientsOwnerViews'])->name('adminPetView')->middleware('prevent');
+        Route::get('/CRUDclinic', [AdminController::class, 'clinicSearch'])->name('clinicsearch')->middleware('prevent');
+        Route::get('/CRUDusers', [AdminController::class, 'userSearch'])->name('usersearch')->middleware('prevent');
+        Route::get('/CRUDpettype/Add', [AdminController::class, 'addType'])->name('addtype')->middleware('prevent');
+        Route::post('/CRUDpettype/Add/Save', [AdminController::class, 'addPetType'])->name('addpettype')->middleware('prevent'); 
+        Route::get('/pet/CRUDpettype/Edit/{id}',[AdminController::class,'getTypeID'])->middleware('prevent');
+        Route::post('/pet/CRUDpettype/Edit/{id}/Save',[AdminController::class,'saveType'])->middleware('prevent');
+        Route::get('/pet/CRUDpettype/Delete/{type_id}',[AdminController::class,'deleteType'])->name('deleteType')->middleware('prevent');
+        Route::get('/pet/CRUDpetbreed/Add', [AdminController::class, 'viewAddBreed'])->name('addbreed')->middleware('prevent'); 
+        Route::post('/pet/CRUDpetbreed/Add/Save', [AdminController::class, 'AddBreed'])->name('addbreed')->middleware('prevent');
+        Route::get('/pet/CRUDpetbreed/Edit/{breed_id}',[AdminController::class,'getBreedID'])->middleware('prevent'); 
+        Route::post('/pet/CRUDpetbreed/Edit/{breed_id}/Save',[AdminController::class,'saveBreed'])->middleware('prevent');
+        Route::get('/pet/CRUDpetbreed/Delete/{breed_id}',[AdminController::class,'deleteBreed'])->name('breed_deleted')->middleware('prevent');
+        Route::get('/CRUDclinic/register',[AdminController::class,'viewCLinic'])->middleware('prevent');
+        Route::get('/CRUDvet/{clinic_id}',[AdminController::class, 'admin_viewVetDetails'])->name('clinicvet')->middleware('prevent');
+        Route::get('/CRUDclinic/Edit/{clinic_id}',[AdminController::class, 'admin_EditClinic'])->name('editclinic')->middleware('prevent');
+        Route::post('/CRUDclinic/Edit/{clinic_id}/save',[AdminController::class,'admin_EditClinicSubmit'])->name('editclinicsubmit')->middleware('prevent');
+        Route::get('/CRUDclinic/delete/{clinic_id}',[AdminController::class, 'deleteClinic'])->name('deleteclinic')->middleware('prevent');
+        Route::get('/CRUDclinic/regVet/{clinic_id}', [AdminController::class, 'admin_AddVetID'])->name('display')->middleware('prevent');
+        Route::post('/CRUDclinic/regVet/save', [AdminController::class, 'admin_AddVeterinarian'])->name('addveterinarian')->middleware('prevent');
+        Route::post('/clinic/CRUDclinic/addClinic/save',[AdminController::class,'admin_AddClinicSubmit'])->name('addclinicsubmit')->middleware('prevent');
+        Route::get('/CRUDvet/Edit/{vet_id}',[AdminController::class, 'admin_GetVet'])->name('getvet')->middleware('prevent');
+        Route::post('/CRUDvet/Edit/{vet_id}/Save',[AdminController::class,'admin_EditVetDetails'])->name('editvetdetails')->middleware('prevent');
+        Route::get('/CRUDvet/Delete/{id}', [AdminController::class, 'admin_DeleteVets'])->name('delete')->middleware('prevent');
+        Route::get('/CRUDusers/Edit/{id}',[AdminController::class,'admin_GetUsers'])->name('getusers')->middleware('prevent');
+        Route::POST('/CRUDusers/Edit/{id}/save',[AdminController::class,'editUserDetails'])->name('edituserdetails')->middleware('prevent');
+        Route::get('/CRUDusers/Add', [AdminController::class, 'viewAddUser'])->name('viewadduser')->middleware('prevent');
+        Route::get('/CRUDusers/delete/{id}',[AdminController::class, 'admin_DeleteUsers'])->name('deleteusers')->middleware('prevent');
+        Route::get('/adminEditPatient/{pet_id}',[AdminController::class, 'admin_getPetID']);
+        Route::post('/adminEditPatient/{pet_id}/save',[AdminController::class,'admin_savePetVet'])->name('pets.savepetvet');
+        Route::get('/custdel/{customer_id}/delete',[AdminController::class, 'admin_DeleteCustomer2']); 
+
         
-        Route::post('/logout', [AdminController:: class, 'logout'])->name('logout');
+        Route::POST('/CRUDusers/Add/Save',[AdminController::class,'addAdminSubmit'])->name('addadminsubmit')->middleware('prevent');
+        
+        Route::post('/logout', [AdminController:: class, 'logout'])->name('logout')->middleware('prevent')->middleware('revalidate');
 
     });
 });
@@ -82,6 +94,7 @@ Route::prefix('user')->name('user.')->group(function() {
 
         Route::get('/dashboard', [UserController:: class, 'showDashboard'])->name('dashboard'); 
         Route::post('/logout', [UserController:: class, 'logout'])->name('logout');
+        Route::get('/custprofile', [UserController::class, 'userProfile'])->name('showcust'); 
 
     });
 

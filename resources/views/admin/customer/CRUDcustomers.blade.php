@@ -1,5 +1,6 @@
 @extends('layoutsAdmin.app')
 @section('content') 
+@include('sweet::alert')
 @csrf 
 <link rel="stylesheet" href="/styles.css">
 <div class="content-wrapper">
@@ -49,10 +50,10 @@
           </td> @else <td>
             <span class="badge badge-danger">No</span>
           </td> @endif <td>
-            <a href="/admin/CRUDcustomers/{{ $customer->customer_id}}" class="btn btn-primary btn-sm">
+            <a href="/admin/viewPets/{{ $customer->customer_id}}" class="btn btn-primary btn-sm">
               <i class="fas fa-folder"></i>
             </a>
-            <a href="/admin/CRUDcustomers/Edit/{{ $customer->customer_id }}" class="btn btn-info btn-sm">
+            <a href="/admin/customerEdit/{{ $customer->customer_id }}" class="btn btn-info btn-sm">
               <i class="fas fa-pencil-alt"></i>
             </a>
             <button class="btn btn-danger btn-sm" id="delete" data-toggle="modal" data-target="#deleteModal{{ $customer->customer_id }}">
@@ -71,7 +72,7 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form action="/admin/CRUDcustomers/delete/{{$customer->customer_id}}/Delete" method="GET">
+              <form action="/admin/custdel/{{$customer->customer_id}}/delete" method="GET">
                 @csrf
                 <div class="modal-body">
                   <h3>Confirm deletion of user: {{ $customer->customer_fname }} {{ $customer->customer_lname }}?</h3>

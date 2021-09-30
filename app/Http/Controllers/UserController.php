@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Vets;
 use App\Models\Admin;
-use App\Models\Customers;
+use App\Models\Customer;
 use App\Models\Clinic;
 use App\Models\PetBreeds;
 use App\Models\Pets;
@@ -33,5 +33,18 @@ class UserController extends Controller
     final function logout(){
         Auth::logout();
         return redirect('/login');
+    }
+
+
+    final function userProfile(){
+        $LoggedUserInfo = Customer::select('users.*','customers.*')
+                              ->join('users','users.id','=','customers.id')
+                              ->where('users.id','=',auth()->user()->id)
+                              ->first();
+
+        dd($LoggedUserInfo); die();
+        return view('customer.custProfile', compact('LoggedUserInfo'));
+
+        // return dd($data);
     }
 }

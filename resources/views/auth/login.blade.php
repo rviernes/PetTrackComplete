@@ -13,7 +13,11 @@
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ asset('vendors/dist/css/adminlte.min.css') }}">
 
-        
+        <script>
+            function preventBack(){ window.history.forward() };
+            setTimeout("preventBack()",.00000);
+                window.onunload=function(){null;}
+        </script>
     </head>
   
         <body class="hold-transition login-page" style="background-image: url('vendors/dist/img/1.png'')">
@@ -34,7 +38,8 @@
                         <p class="login-box-msg">Sign in to start your session</p>
                         <form action="{{ route('login') }}" method="post"> 
                             @csrf 
-
+                            <div class="input-group mb-3">
+                            <span class="text-danger">@error('email'){{ $message }}@enderror</span></div>
                             <div class="input-group mb-3">
                                 <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="{{ old('email')}}" require>
                                 <div class="input-group-append">
@@ -43,7 +48,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="text-danger">@error('email'){{ $message }}@enderror</span>
 
                             <div class="input-group mb-3">
                                 <input type="password" class="form-control" name="password" id="password" placeholder="Password">
