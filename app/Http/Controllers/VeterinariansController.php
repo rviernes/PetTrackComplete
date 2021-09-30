@@ -612,6 +612,8 @@ class VeterinariansController extends Controller
         $LoggedUserInfo = User::join('veterinaries','veterinaries.id','=', 'users.id')
         ->select('*')
         ->where('users.id','=', auth()->user()->id)->first();
+
+        dd($LoggedUserInfo); die();
         return view('veterinary.editprofile', compact('LoggedUserInfo'));
     }
 

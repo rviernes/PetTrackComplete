@@ -94,7 +94,7 @@ Route::prefix('user')->name('user.')->group(function() {
 
         Route::get('/dashboard', [UserController:: class, 'showDashboard'])->name('dashboard'); 
         Route::post('/logout', [UserController:: class, 'logout'])->name('logout');
-        Route::get('/custprofile', [UserController::class, 'userProfile'])->name('showcust'); 
+        Route::get('/custprofile', [UserController::class, 'userProfile']);
 
     });
 
