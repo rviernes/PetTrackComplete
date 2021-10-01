@@ -39,7 +39,7 @@ class AdminController extends Controller
 
     final function logout(){
         Auth::logout();
-        return redirect('/login');
+        return redirect('/');
     }
 
     public function admin_CountData(){

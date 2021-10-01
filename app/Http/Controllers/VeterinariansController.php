@@ -589,7 +589,7 @@ class VeterinariansController extends Controller
 
     final function logout(){
         Auth::logout();
-        return redirect('/login');
+        return redirect('/');
     }
 
     // final function showProfile(){

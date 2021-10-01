@@ -36,7 +36,7 @@
                        </div>
                        @endif 
                         <p class="login-box-msg">Sign in to start your session</p>
-                        <form action="{{ route('login') }}" method="post"> 
+                        <form action="{{ route('/') }}" method="post"> 
                             @csrf 
                             <div class="input-group mb-3">
                             <span class="text-danger">@error('email'){{ $message }}@enderror</span></div>
@@ -75,7 +75,7 @@
                         </form>
                         <!-- /.social-auth-links -->
                         <p class="mb-1">
-                            <a href="{{ route('password.request') }}" class="text-center">I forgot my password</a>
+                            <a href="" class="text-center">I forgot my password</a>
                         </p>
                         <p class="mb-0">
                             <a href="/register" class="text-center">Register a new account</a>

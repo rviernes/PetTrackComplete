@@ -28,18 +28,18 @@ class UserController extends Controller
 
     final function logout(){
         Auth::logout();
-        return redirect('/login');
+        return redirect('/');
     }
 
 
     final function editProfile(){
-        $LoggedUserInfo = User::join('veterinaries','veterinaries.id','=', 'users.id')
-        ->select('*')
+        $LoggedUserInfo = User::join('customers','customers.id','=', 'users.id')
+        ->select('customers.*','users.*')
         ->where('users.id','=', auth()->user()->id)->first();
 
-        dd($LoggedUserInfo); die();
+        // dd($LoggedUserInfo); die();
 
-        return view('customer.custProfile', compact('LoggedUserInfo'));
+        return view('customer.custAcc', compact('LoggedUserInfo'));
 
         // return dd($data);
     }
@@ -55,5 +55,6 @@ class UserController extends Controller
 
         // return dd($data);
     }
+    
 }
 

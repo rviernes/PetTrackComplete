@@ -1,54 +1,35 @@
 @extends('layoutsCustomer.app')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> @section('content') <div class="content-wrapper">
-    <section class="content-header">
+<link rel="stylesheet" href="/styles.css">    
+<section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Customer Profile</h1>
+                    <h1 id="pet_name_id">Customer Profile</h1>
                 </div>
     </section>
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-3">
                     <!-- update -->
                     <div class="text-success alert-block text-center" id="update-success">
                         <strong></strong>
                     </div>
-                    <!-- Profile Image -->
-                    <div class="card card-primary card-outline">
-                        <div class="card-body box-profile">
-                            <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle" src="" alt="Profile Pic">
-                            </div>
-                            <br>
-                            <h5 style="text-align: center">{{ $LoggedUserInfo->customer_fname }} {{ $LoggedUserInfo->customer_mname }} {{ $LoggedUserInfo->customer_lname }} </h5>
-                            <br>
-                            <a href="custAcc" class="btn btn-primary btn-block">
-                                <b>Edit Profile </b>
-                            </a>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
                     <!-- /.card -->
                     <!-- /.card -->
-                </div>
                 <!-- /.col -->
-                <div class="col-md-9">
+                <div class="col-md-12" >
                     <div class="card">
-                        <div class="card-header p-2">
-                            <ul class="nav nav-pills">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="#listofpets" data-toggle="tab">Customer Details</a>
-                                </li>
-                                <!-- <li class="nav-item"><a class="nav-link" href="#change_password" data-toggle="tab">Change Password </a></li> -->
-                            </ul>
+                        <div class="card-header">
+                            <div class="p-2" style="width: 200px; text-align: right;">
+                                        <a class="btn btn-primary btn-block" href="/user/custAcc">Edit Profile</a>
+                                    <!-- <li class="nav-item"><a class="nav-link" href="#change_password" data-toggle="tab">Change Password </a></li> -->
+                            </div>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body">
                             <div class="tab-content">
-                                <table class="table table-striped table-hover">
+                                <table class="table table-striped">
                                     <thead>
                                         <tr>
                                             <td>

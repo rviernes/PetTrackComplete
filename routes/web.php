@@ -21,21 +21,42 @@ use App\Http\Controllers\VeterinariansController;
 |
 */
 
-Route::group(['middleware' => ['revalidate']], function() {
+Route::group(['middleware' => ['web']], function() {
 Route::get('/', function () {
-    return view('auth/login');
+    if (auth()->user()) {
+        if (auth()->user()->usertype == 'admin') {
+            return redirect('/admin/dashboard');
+        } elseif((auth()->user()->usertype == 'veterinary')) {
+            return redirect('/veterinary/dashboard');
+        }else{
+            return redirect('/user/dashboard');
+        }
+        
+    } else {
+        return view('auth/login');
+    }
 });
-});
+
+// Auth::routes();
 
 
+Route::post('/', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('/');
+Route::post('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
-Auth::routes();
+
+Route::get('register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register')->middleware('revalidate');
+Route::post('register', [App\Http\Controllers\Auth\RegisterController::class, 'register']); 
+
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::prefix('admin')->name('admin.')->group(function() {
 
-    Route::group(['middleware' => ['auth','admin','revalidate']], function() {
+    Route::group(['middleware' => ['auth','admin']], function() {
 
         Route::get('/dashboard', [AdminController::class, 'showDashboard'])->name('dashboard')->middleware('prevent')->middleware('revalidate');
         Route::get('/CRUDvet', [AdminController::class, 'getAllVet'])->name('vet.home')->middleware('prevent');
@@ -95,6 +116,8 @@ Route::prefix('user')->name('user.')->group(function() {
         Route::get('/dashboard', [UserController:: class, 'showDashboard'])->name('dashboard'); 
         Route::post('/logout', [UserController:: class, 'logout'])->name('logout');
         Route::get('/custprofile', [UserController::class, 'userProfile']);
+        Route::get('/custAcc', [UserController::class, 'editProfile']);
+        Route::post('/custAcc/{user_id}',[UserController::class, 'changePw'])->name('cust.changepassword');
 
     });
 
@@ -157,3 +180,5 @@ Route::prefix('veterinary')->name('veterinary.')->group(function() {
 
 });
 
+
+});
