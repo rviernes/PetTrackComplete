@@ -43,7 +43,6 @@ Route::get('/', function () {
 Route::post('/', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('/');
 Route::post('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
-
 Route::get('register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register')->middleware('revalidate');
 Route::post('register', [App\Http\Controllers\Auth\RegisterController::class, 'register']); 
 
@@ -100,6 +99,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('/adminEditPatient/{pet_id}',[AdminController::class, 'admin_getPetID']);
         Route::post('/adminEditPatient/{pet_id}/save',[AdminController::class,'admin_savePetVet'])->name('pets.savepetvet');
         Route::get('/custdel/{customer_id}/delete',[AdminController::class, 'admin_DeleteCustomer2']); 
+        Route::get('/pets/CRUDeditpet/{pet_id}',[AdminController::class, 'pet_getPetID']);
+        Route::post('/pets/CRUDeditpet/saveUpdate/{pet_id}',[AdminController::class,'pet_savePetVet'])->name('pets.savepet');
+        Route::get('/customer/viewPatient/delete/{pet_id}',[AdminController::class, 'admin_DeletePet'])->name('deletevets');
 
         
         Route::POST('/CRUDusers/Add/Save',[AdminController::class,'addAdminSubmit'])->name('addadminsubmit')->middleware('prevent');
@@ -117,7 +119,9 @@ Route::prefix('user')->name('user.')->group(function() {
         Route::post('/logout', [UserController:: class, 'logout'])->name('logout');
         Route::get('/custprofile', [UserController::class, 'userProfile']);
         Route::get('/custAcc', [UserController::class, 'editProfile']);
-        Route::post('/custAcc/{user_id}',[UserController::class, 'changePw'])->name('cust.changepassword');
+        Route::post('/custAcc/{user_id}/save',[UserController::class, 'changePw'])->name('changepassword');
+        Route::POST('/custAcc/{customer_id}/{user_id}', [UserController::class, 'custProfile'])->name('custimage');
+        Route::get('/viewPets',[UserController::class, 'usersPets'])->name('adminPetView');
 
     });
 

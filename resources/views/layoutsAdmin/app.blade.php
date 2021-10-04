@@ -37,6 +37,7 @@
   <link rel="stylesheet" href="{{asset('vendors/dist/css/adminlte.min.css') }}">
 </head>
 <body class="hold-transition sidebar-mini">
+ @include('sweet::alert')
 <div class="wrapper">
 
  

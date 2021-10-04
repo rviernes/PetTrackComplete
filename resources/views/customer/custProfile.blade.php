@@ -20,16 +20,12 @@
                     <!-- /.card -->
                 <!-- /.col -->
                 <div class="col-md-12" >
-                    <div class="card">
+                    <div class="card" id="cardID">
+                        <img src="{{asset('vendors/dist/img/darkMan.png') }}" alt="img-circle" style="margin: auto; width: 150px; height: 150px; border-radius:50%; object-fit:cover;">
                         <div class="card-header">
-                            <div class="p-2" style="width: 200px; text-align: right;">
-                                        <a class="btn btn-primary btn-block" href="/user/custAcc">Edit Profile</a>
-                                    <!-- <li class="nav-item"><a class="nav-link" href="#change_password" data-toggle="tab">Change Password </a></li> -->
-                            </div>
-                        </div>
                         <!-- /.card-header -->
                             <div class="tab-content">
-                                <table class="table table-striped">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <td>
@@ -110,8 +106,6 @@
                                 </table>
                                 <div class="col-md-4"></div>
                                 <!-- /.col -->
-                            </div>
-                            <!-- /.card-footer -->
                         </div>
                         <!-- /.tab-content -->
                     </div>

@@ -44,12 +44,7 @@
                 pet_isActive: {
                     required: true
                 }
-            },
-            messages: {
-                pet_name: {
-                    required: "Pet name is required"
-                },
-                pet_gender: {
+            },divForLabels
                     required: "Gender is required"
                 },
                 pet_type_id: {
@@ -109,14 +104,14 @@
                     <thead>
                         <tr>
                             <td>
-                                <div class="form-group" 
+                                <div class="form-group" id="divForLabels">
                                     <label for="pet_name">Pet Name</label>
                                     <input type="text" class="form-control" name="pet_name" id="pet_name" placeholder="Enter Pet Name" required>
                                     <span class="text-danger error-text customer_fname_error" >@error('pet_name'){{ $message }}@enderror</span>
                                 </div>
                             </td>
                             <td>
-                                <div class="form-group" 
+                                <div class="form-group" id="divForLabels">
                                     <label for="pet_gender">Gender</label>
                                     <select id="pet_gender" class="form-control custom-select" name="pet_gender">
                                         <option selected disabled>Choose...</option>
@@ -127,7 +122,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="form-group" 
+                                <div class="form-group" id="divForLabels">
                                     <label for="pet_type_id">Type</label>
                                     <select class="form-control custom-select" name="pet_type_id" id="pet_type_id">
                                         <option disabled>Choose pet Type</option> 
@@ -139,7 +134,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="form-group" 
+                                <div class="form-group" id="divForLabels">
                                     <label for="pet_breed_id">Breed</label>
                                     <select id="pet_breed_id" class="form-control custom-select" name="pet_breed_id">
                                         <option selected disabled>Choose Breed</option> @foreach ($pet_breeds as $pet_breed) <option value="{{ $pet_breed->breed_id }}">{{ $pet_breed->breed_name }}</option> @endforeach
@@ -150,14 +145,14 @@
                         </tr>
                         <tr>
                             <td>
-                                <div class="form-group" 
+                                <div class="form-group" id="divForLabels">
                                     <label for="pet_bloodType" class="form-label"> BloodType</label>
                                     <input type="bloodtype" class="form-control" name="pet_bloodType" id="pet_bloodType" placeholder="Optional">
                                     <span class="text-danger error-text customer_blk_error">@error('pet_bloodType'){{ $message }}@enderror</span>
                                 </div>
                             </td>
                             <td>
-                                <div class="form-group" 
+                                <div class="form-group" id="divForLabels">
                                     <label for="pet_registeredDate" required class="form-label"> Registered Date</label>
                                     <br>
                                     <input type="date" class="form-control" id="pet_registeredDate" name="pet_registeredDate">
@@ -165,7 +160,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="form-group" 
+                                <div class="form-group" id="divForLabels">
                                     <label for="pet_birthday" required class="form-label bdayClass"> Birthday</label>
                                     <br>
                                     <input type="date" class="form-control" id="pet_birthday" name="pet_birthday" require>
@@ -173,7 +168,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="form-group" 
+                                <div class="form-group" id="divForLabels">
                                     <label for="customer_id">Owner</label>
                                     <input type="hidden" name="customer_id" id="customer_id" value="{{ $custInfo->customer_id}}">
                                     <input type="text" disabled class="form-control" id="date" name="customer_name" value="{{ $custInfo->customer_fname}} {{ $custInfo->customer_lname}}">
@@ -184,38 +179,32 @@
                         </tr>
                         <tr>
                             <td>
-                                <div class="form-group" >
+                                <div class="form-group" id="divForLabels">
                                     <label for="pet_notes" class="form-label"> Notes</label>
                                     <textarea placeholder="Enter Description and Health Conditions" class="form-control" name="pet_notes" id="pet_notes"></textarea>
                                     <span class="text-danger error-text customer_street_error">@error('pet_notes'){{ $message }}@enderror</span>
                                 </div>
                             </td>
                             <td>
-                                <div class="form-group" 
+                                <div class="form-group" id="divForLabels">
                                     <label for="clinic_id">Clinic: </label>
-                                    <select id="clinic_id" class="form-control custom-select" name="clinic_id"> 
-                                        @foreach ($pet_clinics as $clinic) 
-                                        <option value="{{ $clinic->clinic_id }}">
-                                            {{ $clinic->clinic_name }}
-                                        </option> 
-                                        @endforeach 
-                                    </select>
+                                    <input type="text" class="form-control" value="{{ $pet_clinics->clinic_name }}" readonly>
+                                    <input type="hidden" name="clinic_id" class="form-control" value="{{ $pet_clinics->clinic_id }}" >
                                     <span class="text-danger error-text customer_blk_error">@error('clinic_id'){{ $message }}@enderror</span>
                                 </div>
                             </td>
                             <td>
-                                <div class="form-group" >
+                                <div class="form-group" id="divForLabels">
                                     <label for="pet_isActive">Status</label>
                                     <select id="pet_isActive" class="form-control custom-select" name="pet_isActive">
-                                        <option selected disabled>is Pet Active?</option>
-                                        <option value="1">Yes</option>
-                                        <option value="0">No</option>
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
                                     </select>
                                     <span class="text-danger error-text customer_blk_error">@error('pet_isActive'){{ $message }}@enderror</span>
                                 </div>
                             </td>
                             <td>
-                                <div class="form-group" >
+                                <div class="form-group" id="divForLabels">
                                     <label for="inputdp"> Profile Picture</label>
                                     <br>
                                     <form action="/action_page.php">

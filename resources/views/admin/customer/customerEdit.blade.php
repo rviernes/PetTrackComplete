@@ -26,7 +26,7 @@
       <input type="hidden" value="{{ $vetcust_id->customer_id }}">
     <tr>
         <td >
-            <div class="form-group" style="width: auto">
+            <div class="form-group" style="width: auto" id="divForLabels">
                 <label>First Name</label>
                 <input type="text"  class="form-control" value="{{ $vetcust_id->customer_fname }}" id="customer_fname" name="customer_fname"  placeholder="Enter First Name">
                 <span class="text-danger error-text customer_fname_error">@error('customer_fname'){{ $message }}@enderror</span>
@@ -34,7 +34,7 @@
         </td>
 
             <td >
-                <div class="form-group" style="width: auto">
+                <div class="form-group" style="width: auto" id="divForLabels">
                     <label>Last Name</label>
                     <input type="text"  value="{{ $vetcust_id->customer_lname }}" class="form-control" id="customer_lname" name="customer_lname"  placeholder="Enter Last Name">
                     <span class="text-danger error-text customer_lname_error">@error('customer_lname'){{ $message }}@enderror</span>
@@ -59,14 +59,14 @@
     </tr>
     <tr>
         <td>
-            <div class="form-group" style="width: auto">
+            <div class="form-group" style="width: auto" id="divForLabels">
                 <label>Telephone</label>
                 <input type="number" class="form-control" value="{{ $vetcust_id->customer_tel }}"  id="customer_tel" name="customer_tel" placeholder="Enter Telephone">
                 <span class="text-danger error-text customer_tel_error">@error('customer_tel'){{ $message }}@enderror</span>
             </div>
         </td>
         <td>
-            <div class="form-group" style="width: auto">
+            <div class="form-group" style="width: auto" id="divForLabels">
                 <label>Gender</label>
                 <select id="customer_gender" class="form-control custom-select" name="customer_gender">
                   @if ($vetcust_id->customer_gender=="Male")
@@ -81,7 +81,7 @@
               </div>
         </td>
         <td>
-            <div class="form-group" style="width: auto">
+            <div class="form-group" style="width: auto" id="divForLabels">
                 <label required class="form-label">Birthdate</label>
                 <br>
                 <div class="">
@@ -91,7 +91,7 @@
               </div>
         </td>
         <td>
-            <div class="form-group" style="width: auto">
+            <div class="form-group" style="width: auto" id="divForLabels">
                 <label>House Block/Building/Floor No.</label>
                 <input type="text" class="form-control" value="{{ $vetcust_id->customer_blk }}" name="customer_blk" id="customer_blk"  placeholder="Enter Address">
                 <span class="text-danger error-text customer_blk_error">@error('customer_blk'){{ $message }}@enderror</span>
@@ -101,28 +101,28 @@
     <tr>
         
         <td>
-            <div class="form-group" style="width: auto">
+            <div class="form-group" style="width: auto" id="divForLabels">
                 <label>Street/Highway</label>
                 <input type="text" class="form-control" value="{{ $vetcust_id->customer_street }}" name="customer_street" id="customer_street" placeholder="Enter Address">
                 <span class="text-danger error-text customer_street_error">@error('customer_street'){{ $message }}@enderror</span>
             </div>
         </td>
         <td>
-            <div class="form-group" style="width: auto">
+            <div class="form-group" style="width: auto" id="divForLabels">
                 <label>Subdivision</label>
                 <input type="text" class="form-control" value="{{ $vetcust_id->customer_subdivision }}" name="customer_subdivision" id="customer_subdivision"  placeholder="Enter Address">
                 <span class="text-danger error-text customer_subdivision_error">@error('customer_subdivision'){{ $message }}@enderror</span>
             </div>
         </td>
         <td>
-            <div class="form-group" style="width: auto">
+            <div class="form-group" style="width: auto" id="divForLabels">
                 <label>Barangay</label>
                 <input type="text" class="form-control" value="{{ $vetcust_id->customer_barangay }}" name="customer_barangay" id="customer_barangay" placeholder="Enter Address">
                 <span class="text-danger error-text customer_barangay_error">@error('customer_barangay'){{ $message }}@enderror</span>
             </div>
         </td>
         <td>
-            <div class="form-group" style="width: auto">
+            <div class="form-group" style="width: auto" id="divForLabels">
                 <label>City</label>
                 <input type="text" class="form-control" value="{{ $vetcust_id->customer_city }}" name="customer_city" id="customer_city"  placeholder="Enter Address">
                 <span class="text-danger error-text customer_city_error">@error('customer_city'){{ $message }}@enderror</span>
@@ -132,14 +132,14 @@
 
     <tr>
         <td>
-            <div class="form-group" style="width: auto">
+            <div class="form-group" style="width: auto" id="divForLabels">
                 <label>Zip Code</label>
                 <input type="text" class="form-control" value="{{ $vetcust_id->customer_zip }}" name="customer_zip" id="customer_zip" placeholder="Enter Addres">
                 <span class="text-danger error-text customer_zip_error">@error('customer_zip'){{ $message }}@enderror</span>
             </div>
         </td>
         <td>
-            <div class="form-group" style="width: auto">
+            <div class="form-group" style="width: auto" id="divForLabels">
                 <label>Active</label>
                 <select id="isActive" class="form-control custom-select" name="isActive">
                   @if ($vetcust_id->customer_isActive == 1)

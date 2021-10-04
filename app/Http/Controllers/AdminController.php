@@ -333,9 +333,12 @@ class AdminController extends Controller
 
 
     final function admin_SaveCustomers(Request $request, $customer_id){
-        $checkQuery = 
+        $checkQuery2 = Customer::where('customer_fname','=', $request->customer_fname)
+                              ->where('customer_lname', '=', $request->customer_lname)
+                              ->first();
+        
 
-        Customer::where('customer_fname','=',$request->customer_fname)
+        $checkQuery = Customer::where('customer_fname','=',$request->customer_fname)
                  ->where('customer_lname','=', $request->customer_lname)
                  ->where('customer_mname','=', $request->customer_mname)
                  ->where('customer_mobile','=', $request->customer_mobile)
@@ -349,50 +352,36 @@ class AdminController extends Controller
                  ->where('customer_city','=', $request->customer_city)
                  ->where('customer_zip','=', $request->customer_zip)
                  ->where('customer_isActive','=', $request->isActive)->first();
+
+            if($checkQuery2) {
+                alert()->message('Already Exist');
+                return back();
+            }else{
+                DB::table('customers')
+                ->where('customer_id', '=', $customer_id)
+                ->update(array(
+                    'customer_fname'=> ucwords($request->customer_fname),
+                    'customer_lname'=> ucwords($request->customer_lname),
+                    'customer_mname'=> ucwords($request->customer_mname),
+                    'customer_mobile'=>$request->customer_mobile,
+                    'customer_tel'=>$request->customer_tel,
+                    'customer_gender'=>$request->customer_gender,
+                    'customer_birthday'=>$request->customer_birthday,
+                    'customer_blk'=> ucwords($request->customer_blk),
+                    'customer_street'=> ucwords($request->customer_street),
+                    'customer_subdivision'=> ucwords($request->customer_subdivision),
+                    'customer_barangay'=> ucwords($request->customer_barangay),
+                    'customer_city'=> ucwords($request->customer_city),
+                    'customer_zip'=>$request->customer_zip,
+                    'customer_isActive'=>$request->isActive
+                ));
+                //UPDATE CUSTOMER INFO
+                alert()->success('Customer Updated Successfully','Updated!');
+                 return redirect('/admin/CRUDcustomers');
+    
+            }
+
         
-        // DB::table('customers')
-        // ->where('customer_fname','=', $request->customer_fname)
-        // ->where('customer_lname','=', $request->customer_lname)
-        // ->where('customer_mname','=', $request->customer_mname)
-        // ->where('customer_mobile','=', $request->customer_mobile)
-        // ->where('customer_tel','=', $request->customer_tel)
-        // ->where('customer_gender','=',$request->customer_gender)
-        // ->where('customer_birthday','=', $request->customer_birthday)
-        // ->where('customer_blk','=', $request->customer_blk)
-        // ->where('customer_street', '=', $request->customer_street)
-        // ->where('customer_subdivision', '=', $request->customer_subdivision)
-        // ->where('customer_barangay','=', $request->customer_barangay)
-        // ->where('customer_city','=', $request->customer_city)
-        // ->where('customer_zip','=', $request->customer_zip)
-        // ->where('customer_isActive','=', $request->isActive)->first();
-
-        if($checkQuery) {
-            alert()->message('Change something to update');
-            return back();
-        }else{
-            DB::table('customers')
-            ->where('customer_id', '=', $customer_id)
-            ->update(array(
-                'customer_fname'=>$request->customer_fname,
-                'customer_lname'=>$request->customer_lname,
-                'customer_mname'=>$request->customer_mname,
-                'customer_mobile'=>$request->customer_mobile,
-                'customer_tel'=>$request->customer_tel,
-                'customer_gender'=>$request->customer_gender,
-                'customer_birthday'=>$request->customer_birthday,
-                'customer_blk'=>$request->customer_blk,
-                'customer_street'=>$request->customer_street,
-                'customer_subdivision'=>$request->customer_subdivision,
-                'customer_barangay'=>$request->customer_barangay,
-                'customer_city'=>$request->customer_city,
-                'customer_zip'=>$request->customer_zip,
-                'customer_isActive'=>$request->isActive
-            ));
-            //UPDATE CUSTOMER INFO
-            alert()->success('Customer Updated Successfully','Updated!');
-             return redirect('/admin/CRUDcustomers');
-
-        }
     }
 
     final function admin_DeleteCustomer2($customer_id){ 
@@ -921,9 +910,72 @@ class AdminController extends Controller
         return back();
     }
 
-    
+    function pet_getPetID($pet_id){
+        $pluckID = Pet::where('pet_id', $pet_id)->pluck('customer_id')->first();
+        $getCustID = Customer::where('customer_id','=', $pluckID)->first();
+        $editPet = Pet::where('pet_id', '=', $pet_id)->first();
+        $getTypePet = PetType::get();
+        $getBreedPet = PetBreed::get();
+        $getClinicPet = Clinic::get();
+        $getOwnerPet = Customer::get();
+        
+        return view('admin.pet.CRUDeditpet', compact('editPet', 'getTypePet', 'getBreedPet','getClinicPet','getOwnerPet', 'getCustID'));
+    }
 
 
+    function pet_savePetVet(Request $request, $pet_id){
+
+        $breed = $request->pet_breed_id;
+        $gender = $request->pet_gender;
+        $birthday = $request->pet_birthday;
+        $notes = $request->pet_notes;
+        $bloodtype = $request->pet_bloodType;
+        $regDate = $request->pet_registeredDate;
+        $type = $request->pet_type_id;
+        $name = $request->pet_name;
+        $customer = $request->customer_id;
+        $clinic = $request->clinic_id;
+        $status = $request->pet_isActive;
+
+
+        $NoActionQuery = Pet::where('pet_name','=', $request->pet_name)
+        ->where('pet_gender','=', $request->pet_gender)
+        ->where('pet_birthday','=', $request->pet_birthday)
+        ->where('pet_notes','=', $request->pet_notes)
+        ->where('pet_bloodType','=', $request->pet_bloodType)
+        ->where('pet_registeredDate','=',$request->pet_registeredDate)
+        ->where('pet_type_id','=', $request->pet_type_id)
+        ->where('pet_breed_id','=', $request->pet_breed_id)
+        ->where('customer_id', '=', $request->customer_id)
+        ->where('clinic_id','=', $request->clinic_id)
+        ->where('pet_isActive','=', $request->pet_isActive)->first();
+
+
+        if ($NoActionQuery) {
+            alert()->warning('No changes / all are the same', 'Fail','Update Fail');
+            return back();
+        }else{
+            DB::table('pets')
+        ->where('pet_id', $pet_id)
+        ->update([
+            'pet_name'=>$request->pet_name,
+            'pet_gender'=>$request->pet_gender,
+            'pet_birthday'=>$request->pet_birthday,
+            'pet_notes'=>$request->pet_notes,
+            'pet_bloodType'=>$request->pet_bloodType,
+            'pet_registeredDate'=>$request->pet_registeredDate,
+            'pet_type_id'=>$request->pet_type_id,
+            'pet_breed_id'=>$request->pet_breed_id,
+            'customer_id'=>$request->customer_id,
+            'clinic_id'=>$request->clinic_id,
+            'pet_isActive'=>$request->pet_isActive
+        ]);
+
+        alert()->success('Pet name updated successfully','Update Successful!');
+        return redirect('/admin/CRUDpet');
+        }
+
+    }
 }
 
 // $this->validate($request, array(

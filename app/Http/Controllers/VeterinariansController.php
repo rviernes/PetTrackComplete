@@ -94,7 +94,10 @@ class VeterinariansController extends Controller
         
         $pet_breeds = PetBreed::get(); //-> retrieve breeds 
 
-        $pet_clinics = Clinic::get(); // -> retrieve vet clinics
+        $pet_clinics = User::where('users.id','=',auth()->user()->id)
+                             ->join('veterinaries','veterinaries.id','=','users.id')
+                             ->join('clinics','clinics.clinic_id','=','veterinaries.clinic_id')
+                             ->first(); // -> retrieve vet clinics
 
         $custInfo = Customer::where('customer_id', '=', $customer_id)->first(); // -> retrieve info customer
 

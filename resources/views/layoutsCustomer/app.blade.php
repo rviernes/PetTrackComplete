@@ -11,10 +11,18 @@
         <link rel="stylesheet" href="{{asset('vendors/plugins/fontawesome-free/css/all.min.css') }}">
         <!-- Theme style -->
         <link rel="stylesheet" href="{{asset('vendors/dist/css/adminlte.min.css') }}">
+
+
+
+        <script src="{{ asset('js/app.js') }}"></script>
     </head>
     <body class="hold-transition sidebar-mini">
+        @include('sweet::alert')
+        
         <div class="wrapper">
-            {{-- 1. Top Menu  --}} @include('layoutsCustomer.topMenu') {{-- 2. Left Menu --}} @include('layoutsCustomer.leftMenu') {{-- 3. Main Content (Body) --}}
+            {{-- 1. Top Menu  --}} @include('layoutsCustomer.topMenu') 
+            {{-- 2. Left Menu --}} @include('layoutsCustomer.leftMenu') 
+            {{-- 3. Main Content (Body) --}}
             <!-- Main content -->
             <section class="content"> @yield('content') </section>
         </div>
@@ -27,5 +35,9 @@
         <!-- AdminLTE App -->
         <script src="{{asset('vendors/dist/js/adminlte.min.js') }}"></script>
         <!-- Checking jQuery -->
+
+<script src="https://jqueryvalidation.org/files/lib/jquery.js"></script>
+<script src="https://jqueryvalidation.org/files/lib/jquery-1.11.1.js"></script>
+<script src="https://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
     </body>
 </html>

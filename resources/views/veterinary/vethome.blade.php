@@ -84,18 +84,6 @@
                                         </div>
                                     </div>
                                     <!-- /.card -->
-                                    <div class="card card-primary card-outline">
-                                        <div class="card-header">
-                                            <h5 class="m-0">Featured</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <h6 class="card-title">Featured Pets</h6>
-                                            <p class="card-text">Another set of cute pets of our lovely clients.</p>
-                                            <div class="media">
-                                                <img src="{{ asset('vendors/dist/img/pets2.jpg') }}" alt="User Avatar" class="img-size-100 img-square mr-3">
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <!-- /.col-md-6 -->
                                 <div class="col-lg-6">
@@ -104,11 +92,6 @@
                                             <h5 class="m-0">Featured</h5>
                                         </div>
                                         <div class="card-body">
-                                            <h6 class="card-title">Featured Pets</h6>
-                                            <p class="card-text">These are the pets of our clients.</p>
-                                            <div class="media">
-                                                <img src="{{ asset('vendors/dist/img/pets.jpg') }}" alt="User Avatar" class="img-size-100 img-square mr-3">
-                                            </div>
                                             <div class="content">
                                                 <div class="container-fluid">
                                                     <div class="row">

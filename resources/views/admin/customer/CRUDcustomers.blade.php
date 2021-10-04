@@ -46,9 +46,9 @@
           <td>{{ $customer->customer_birthday}}</td>
           <td>{{ $customer->customer_blk }} / {{ $customer->customer_street }} / {{ $customer->customer_subdivision }} / {{ $customer->customer_barangay }} / {{ $customer->customer_city }} / {{ $customer->customer_zip }} </td>
           @if ($customer->customer_isActive == 1) <td>
-            <span class="badge badge-success">Yes</span>
+            <span class="badge badge-success">Active</span>
           </td> @else <td>
-            <span class="badge badge-danger">No</span>
+            <span class="badge badge-danger">Inactive</span>
           </td> @endif <td>
             <a href="/admin/viewPets/{{ $customer->customer_id}}" class="btn btn-primary btn-sm">
               <i class="fas fa-folder"></i>
