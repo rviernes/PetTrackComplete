@@ -47,6 +47,7 @@
     }
   </style>
 
+
 <div class="content-wrapper">
   <br>
     
@@ -106,7 +107,7 @@
             <td>
               <div class="form-group">
                 <label>Street/Highway: </label>
-                <input type="text" class="form-control" name="clinic_street" id="clinic_street" placeholder="House Block/Building/Floor No."  value="{{$clinics->clinic_street}}">
+                <input type="text" class="form-control" name="clinic_street" id="clinic_street" placeholder="Street/Highway."  value="{{$clinics->clinic_street}}">
               </div>
             </td>
             <td>
@@ -175,4 +176,23 @@
       $("#messageModal").remove();
     }, 3000);
   });
-</script> @endsection
+</script> 
+
+
+<script>
+  $("#clinic_blk").on('change', function (){
+    var value = $(this).val();
+
+    const arr = value.split(" ");
+
+    for(var i = 0; i < arr.length; i++){
+      arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+    }
+    const str2 = arr.join(" ");
+    $("#clinic_blk").val(str2);
+    console.log(str2);
+
+  });
+</script>
+
+@endsection

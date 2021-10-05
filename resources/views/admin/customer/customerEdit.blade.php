@@ -4,6 +4,8 @@
 
 @section('content')
 @include('sweet::alert')
+
+
 <link rel="stylesheet" href="/styles.css">
 <br>
 
@@ -23,7 +25,7 @@
   <thead>
       @if ($vetcust_id)
           
-      <input type="hidden" value="{{ $vetcust_id->customer_id }}">
+      <input type="hidden" id="cust_id" name="cust_id" value="{{ $vetcust_id->customer_id }}">
     <tr>
         <td >
             <div class="form-group" style="width: auto" id="divForLabels">
@@ -231,10 +233,36 @@ $("document").ready(function(){
   </style>
 
 <script>
-$('.feet').on('click', function(e){
-    e.preventDefault();
-    $(#formSubmit).on('submit', function())
-});
-</script>
+    $("#customer_fname").on('change', function (){
+      var value = $(this).val();
+
+      const arr = value.split(" ");
+
+      for(var i = 0; i < arr.length; i++){
+        arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+      }
+      const str2 = arr.join(" ");
+      $("#customer_fname").val(str2);
+      console.log(str2);
+
+    });
+  </script>
+
+  <script>
+    $("#customer_lname").on('change', function (){
+      var value = $(this).val();
+
+      const arr = value.split(" ");
+
+      for(var i = 0; i < arr.length; i++){
+        arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+      }
+      const str2 = arr.join(" ");
+      $("#customer_lname").val(str2);
+      console.log(str2);
+
+    });
+  </script>
+  
 
 @endsection

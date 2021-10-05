@@ -352,34 +352,60 @@ class AdminController extends Controller
                  ->where('customer_city','=', $request->customer_city)
                  ->where('customer_zip','=', $request->customer_zip)
                  ->where('customer_isActive','=', $request->isActive)->first();
+                 //  $request->validate([
+                 //     'customer_fname' => "required | unique:customers,customer_fname,$request->customer_id",
+                 //     'customer_lname' => "required | unique:customers,customer_lname,$request->customer_id"
+                 //  ]);
 
-            if($checkQuery2) {
-                alert()->message('Already Exist');
-                return back();
-            }else{
-                DB::table('customers')
-                ->where('customer_id', '=', $customer_id)
-                ->update(array(
-                    'customer_fname'=> ucwords($request->customer_fname),
-                    'customer_lname'=> ucwords($request->customer_lname),
-                    'customer_mname'=> ucwords($request->customer_mname),
-                    'customer_mobile'=>$request->customer_mobile,
-                    'customer_tel'=>$request->customer_tel,
-                    'customer_gender'=>$request->customer_gender,
-                    'customer_birthday'=>$request->customer_birthday,
-                    'customer_blk'=> ucwords($request->customer_blk),
-                    'customer_street'=> ucwords($request->customer_street),
-                    'customer_subdivision'=> ucwords($request->customer_subdivision),
-                    'customer_barangay'=> ucwords($request->customer_barangay),
-                    'customer_city'=> ucwords($request->customer_city),
-                    'customer_zip'=>$request->customer_zip,
-                    'customer_isActive'=>$request->isActive
-                ));
-                //UPDATE CUSTOMER INFO
-                alert()->success('Customer Updated Successfully','Updated!');
-                 return redirect('/admin/CRUDcustomers');
-    
-            }
+                 $fname = $request->customer_fname;
+                 $lname = $request->customer_lname;
+
+                //  $namee2 = $fname.$lname;
+
+                 $getFname = Customer::whereNotIn('customer_id', [$customer_id])->pluck('customer_fname')->first();
+                 $getLname = Customer::whereNotIn('customer_id', [$customer_id])->pluck('customer_lname')->first();
+
+                 $namee = $getFname.$getLname;
+
+                //  $firstname = $getFname['customer_fname'];
+                
+                //  dd($namee2 == $namee); die();    
+
+                 if ($fname == $getFname && $lname == $getLname)  {
+                     alert()->warning('This Account Already Exist');
+                     return back();
+                 }
+                 else {
+                    if($checkQuery) {
+                        alert()->message('Change something to edit');
+                        return back();
+                    }else{
+                        DB::table('customers')
+                        ->where('customer_id', '=', $customer_id)
+                        ->update(array(
+                            'customer_fname'=> $request->customer_fname,
+                            'customer_lname'=> ucwords($request->customer_lname),
+                            'customer_mname'=> ucwords($request->customer_mname),
+                            'customer_mobile'=>$request->customer_mobile,
+                            'customer_tel'=>$request->customer_tel,
+                            'customer_gender'=>$request->customer_gender,
+                            'customer_birthday'=>$request->customer_birthday,
+                            'customer_blk'=> ucwords($request->customer_blk),
+                            'customer_street'=> ucwords($request->customer_street),
+                            'customer_subdivision'=> ucwords($request->customer_subdivision),
+                            'customer_barangay'=> ucwords($request->customer_barangay),
+                            'customer_city'=> ucwords($request->customer_city),
+                            'customer_zip'=>$request->customer_zip,
+                            'customer_isActive'=>$request->isActive
+                        ));
+                        //UPDATE CUSTOMER INFO
+                        alert()->success('Customer Updated Successfully','Updated!');
+                         return redirect('/admin/CRUDcustomers');
+            
+                    }       
+                 }
+                 
+            
 
         
     }
@@ -593,13 +619,13 @@ class AdminController extends Controller
             ->where('clinic_zip', '=', $clinic_zip)
             ->where('clinic_isActive', '=', $clinic_isActive)->first();
         
-        $checkClinicQuery2 = Clinic::where('clinic_blk', '=', $clinic_blk)->first();
+        $checkClinicQuery2 = Clinic::whereNotIn('clinic_id', [$clinic_id])->pluck('clinic_blk')->first();
 
             if ($checkClinicQuery) {
                 alert()->message('Nothing has been changed', 'Error');
                 return back();
             }else{
-                if ($checkClinicQuery2) {
+                if ($clinic_blk == $checkClinicQuery2) {
                     alert()->warning('A clinic already exist in that House Block/Building/Floor #', 'Error');
                     return back();
                 }else{
