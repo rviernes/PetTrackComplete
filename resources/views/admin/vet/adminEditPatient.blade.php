@@ -4,6 +4,21 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://jqueryvalidation.org/files/lib/jquery-1.11.1.js"></script>
 
+<script>
+  $("#pet_name").on('change', function (){
+    var value = $(this).val();
+
+    const arr = value.split(" ");
+
+    for(var i = 0; i < arr.length; i++){
+      arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+    }
+    const str2 = arr.join(" ");
+    $("#pet_name").val(str2);
+    console.log(str2);
+
+  });
+</script>
 
 <script>
 

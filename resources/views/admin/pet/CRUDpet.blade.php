@@ -71,23 +71,46 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body" style="font-weight: bold; text-align: left; margin-left: auto; margin-right: auto;">
-          <h5>Pet name: <strong> {{ $pet->pet_name }} </strong></h5>
-          <h5>Pet name: <strong> {{ $pet->pet_notes}} </strong></h5>
-          <h5>Pet name: <strong> {{ $pet->pet_bloodType}} </strong></h5>
-          <h5>Pet name: <strong> {{ $pet->pet_name }} </strong></h5>
-          <h5>Type: <strong> {{ $pet->type_name }} </strong></h5>
-          <h5>Breed: <strong>{{ $pet->breed_name }}</strong> </h5>
-          <h5>Gender: <strong> {{ $pet->pet_gender }} </strong></h5>
-          <h5>Registered date: <strong> {{ $pet->pet_registeredDate }} </strong></h5>
-          <h5>Address: <strong> {{ $pet->customer_address }} </strong> </h5>
-          <h5>Owner: <strong> {{ $pet->customer_name }} </strong></h5>
-          @if ($pet->pet_isActive == "1")
-          <h5>Status : <strong> YES </strong></h5>
-          @else
-          <h5>Status : <strong> NO </strong></h5>
-          @endif
+        <div class="modal-body">
           
+        <div class="form-group row">
+          <div class="col-md-4">
+            <h5>Pet name: <br><strong> {{ $pet->pet_name }} </strong></h5>
+          </div><div class="col-md-4">
+            <h5>Gender: <br><strong> {{ $pet->pet_gender }} </strong></h5>
+          </div><div class="col-md-4">
+            <h5>Bloodtype: <br><strong> {{ $pet->pet_bloodType}} </strong></h5>
+          </div>
+        </div>
+          
+        <div class="form-group row">
+          <div class="col-md-4">
+            <h5>Type: <br><strong> {{ $pet->type_name }} </strong></h5>
+          </div><div class="col-md-4">
+            <h5>Breed: <br><strong>{{ $pet->breed_name }}</strong> </h5>
+          </div><div class="col-md-4">
+            <h5>Gender: <br><strong> {{ $pet->pet_gender }} </strong></h5>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-4">
+            <h5>Registered date: <br><strong> {{ $pet->pet_registeredDate }} </strong></h5>
+          </div>
+          <div class="col-md-4">
+            <h5>Owner: <br><strong> {{ $pet->customer_name }} </strong></h5>
+          </div>
+          <div class="col-md-4">
+            @if ($pet->pet_isActive == "1")
+            <h5>Status : <br><strong> ACTIVE </strong></h5>
+            @else
+            <h5>Status : <br><strong> INACTIVE </strong></h5>
+            @endif
+          </div>
+        </div>
+          
+        <h5>Address: <br><strong> {{ $pet->customer_address }} </strong> </h5><br>
+        <h5>Notes: <br><strong> {{ $pet->pet_notes}} </strong></h5><br>
 
           <h5 style="text-align: center">
             {!! QrCode::size(150)->generate('name: '.$pet->pet_name.

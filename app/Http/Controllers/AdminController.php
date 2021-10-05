@@ -83,7 +83,7 @@ class AdminController extends Controller
                   ->join('pet_breeds','pet_breeds.breed_id', 'pets.pet_breed_id')
                   ->join('clinics','clinics.clinic_id', 'pets.clinic_id')
                   ->join('customers','customers.customer_id', 'pets.customer_id')
-                  ->select('pet_types.*','pet_breeds.*','pets.*','clinics.*','customers.*')
+                  ->select('pet_types.*','pet_breeds.*','pets.*','clinics.*','customers.*', DB::raw("CONCAT(customer_blk,' / ', customer_street, ' / ', customer_subdivision, ' / ', customer_barangay, ' / ', customer_zip, ' / ', customer_city) AS customer_address"), DB::raw("CONCAT(customer_fname, ' ', customer_lname) AS customer_name"))
                   ->where('pet_name', 'LIKE', '%'.$search.'%')
                   ->paginate('8');
         return view('admin.pet.CRUDpet', compact('Pet'));
