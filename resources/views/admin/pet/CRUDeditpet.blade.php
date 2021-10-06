@@ -236,12 +236,8 @@
         <td>
             <div class="form-group" style="width: auto;">
                 <label for="inputClinic">Clinic</label>
-                    @if()
-
-                    @endif
-
-                  <input type="text" class="form-control" id="clinic_name" name="clinic_name" value="{{ $clinic->clinic_name }}" readonly>
-                  <input type="text" class="form-control" id="clinic_id" name="clinic_id" value="{{ $clinic->clinic_id }}" hidden>
+                  <input type="text" class="form-control" id="clinic_name" name="clinic_name" value="{{ $editPet->clinic_name }}" readonly>
+                  <input type="text" class="form-control" id="clinic_id" name="clinic_id" value="{{ $editPet->clinic_id }}" hidden>
                 </select>
                 <span class="text-danger error-text customer_blk_error">@error('clinic_id'){{ $message }}@enderror</span>
             </div>

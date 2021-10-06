@@ -939,7 +939,7 @@ class AdminController extends Controller
     function pet_getPetID($pet_id){
         $pluckID = Pet::where('pet_id', $pet_id)->pluck('customer_id')->first();
         $getCustID = Customer::where('customer_id','=', $pluckID)->first();
-        $editPet = Pet::where('pet_id', '=', $pet_id)->first();
+        $editPet = Pet::select('pets.*','clinics.*')->where('pet_id', '=', $pet_id)->join('clinics','clinics.clinic_id','=','pets.clinic_id')->first();
         $getTypePet = PetType::get();
         $getBreedPet = PetBreed::get();
         $getClinicPet = Clinic::get();

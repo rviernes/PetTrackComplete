@@ -148,6 +148,8 @@
         font-size: 14px;
     }
 </style> 
+
+
 @section('content') 
 
 @include('sweet::alert')
@@ -304,4 +306,49 @@
         <!-- AdminLTE App -->
         <script src="../../dist/js/adminlte.min.js"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="../../dist/js/demo.js"></script> @endsection
+        <script src="../../dist/js/demo.js"></script> 
+        
+        
+        <script>
+            $("#customer_fname").on('change', function (){
+            var value = $(this).val();
+            const arr = value.split(" ");
+
+            for(var i = 0; i < arr.length; i++){
+                arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+            }
+            const str2 = arr.join(" ");
+            $("#customer_fname").val(str2);
+            console.log(str2);
+
+            });
+
+            $("#customer_lname").on('change', function (){
+            var value = $(this).val();
+            const arr = value.split(" ");
+
+            for(var i = 0; i < arr.length; i++){
+                arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+            }
+            const str2 = arr.join(" ");
+            $("#customer_lname").val(str2);
+            console.log(str2);
+
+            });
+
+            $("#customer_mname").on('change', function (){
+            var value = $(this).val();
+            const arr = value.split(" ");
+
+            for(var i = 0; i < arr.length; i++){
+                arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+            }
+            const str2 = arr.join(" ");
+            $("#customer_mname").val(str2);
+            console.log(str2);
+
+            });
+            
+        </script>
+  
+  @endsection

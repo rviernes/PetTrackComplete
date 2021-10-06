@@ -347,7 +347,7 @@ class VeterinariansController extends Controller
     
     function getPetID($pet_id){
 
-        $editPet = Pet::where('pet_id', '=', $pet_id)->first();
+        $editPet = Pet::where('pet_id', '=', $pet_id)->join('clinics','clinics.clinic_id','=','pets.clinic_id')->first();
         $getTypePet = PetType::get();
         $getBreedPet = PetBreed::get();
         $getClinicPet = Clinic::get();

@@ -190,7 +190,8 @@
                             <td>
                                 <div class="form-group">
                                     <label for="inputClinic">Clinic</label>
-                                    <select id="inputClinic" class="form-control custom-select" id="clinic_id" name="clinic_id"> @foreach ($getClinicPet as $clinic) @if ($clinic->clinic_id == $editPet->clinic_id) <option value="{{ $clinic->clinic_id }}" selected>{{ $clinic->clinic_name }}</option> @else <option value="{{ $clinic->clinic_id }}">{{ $clinic->clinic_name }}</option> @endif @endforeach </select>
+                                        <input type="text" class="form-control" id="clinic_name" name="clinic_name" value="{{ $editPet->clinic_name }}" readonly>
+                                        <input type="text" class="form-control" id="clinic_id" name="clinic_id" value="{{ $editPet->clinic_id }}" hidden>
                                     <span class="text-danger error-text customer_blk_error">@error('clinic_id'){{ $message }}@enderror</span>
                                 </div>
                             </td>
@@ -230,4 +231,22 @@
         <!-- AdminLTE App -->
         <script src="../../dist/js/adminlte.min.js"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="../../dist/js/demo.js"></script> @endsection
+        <script src="../../dist/js/demo.js"></script> 
+        
+        
+        <script>
+            $("#pet_name").on('change', function (){
+            var value = $(this).val();
+            const arr = value.split(" ");
+
+            for(var i = 0; i < arr.length; i++){
+                arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+            }
+            const str2 = arr.join(" ");
+            $("#pet_name").val(str2);
+            console.log(str2);
+
+            });
+        </script>
+        
+        @endsection
