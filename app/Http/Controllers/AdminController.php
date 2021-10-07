@@ -172,6 +172,7 @@ class AdminController extends Controller
         $type_name= $request->type_name;
     
         $checkQuery = DB::table('pet_types')->where('type_name','=', $type_name)->first();
+        
     
         if ($checkQuery) {
             alert()->warning('Pet type name already exist!', 'Existing');
@@ -622,7 +623,7 @@ class AdminController extends Controller
         $checkClinicQuery2 = Clinic::whereNotIn('clinic_id', [$clinic_id])->pluck('clinic_blk')->first();
 
             if ($checkClinicQuery) {
-                alert()->message('Nothing has been changed', 'Error');
+                alert()->message('No changes / all are the same');
                 return back();
             }else{
                 if ($clinic_blk == $checkClinicQuery2) {
@@ -806,8 +807,8 @@ class AdminController extends Controller
         $checkUserQuery2 = User::where('username', '=', $request->user_name)
                                 ->where('email','=',$request->user_email)->first();
         $request->validate([
-            'username'=>'unique:users',
-            'email'=>'unique:users'
+            'user_name'=>"unique:users,username",
+            'user_email'=>"unique:users,email"
         ]);
         if ($checkUserQuery) {
             alert()->message('No Changes within the fields','Same Inputs');
@@ -962,6 +963,8 @@ class AdminController extends Controller
         $customer = $request->customer_id;
         $clinic = $request->clinic_id;
         $status = $request->pet_isActive;
+        $getID = $request->getId;
+        // dd($getID); die();
 
 
         $NoActionQuery = Pet::where('pet_name','=', $request->pet_name)
@@ -976,29 +979,50 @@ class AdminController extends Controller
         ->where('clinic_id','=', $request->clinic_id)
         ->where('pet_isActive','=', $request->pet_isActive)->first();
 
+        $existingQuery = Pet::whereNotIn('pet_id',[$pet_id])->pluck('pet_bloodType')->first();
+        $existingQuery2 = Pet::whereNotIn('pet_id',[$pet_id])->pluck('pet_type_id')->first();
+        $existingQuery3 = Pet::whereNotIn('pet_id',[$pet_id])->pluck('pet_breed_id')->first();
+        $existingQuery4 = Pet::whereNotIn('pet_id',[$pet_id])->pluck('customer_id')->first();
+        $existingQuery5 = Pet::whereNotIn('pet_id',[$pet_id])->pluck('pet_name')->first();
+        // dd($request->pet_birthday == $existingQuery); die();
+        // $request->validate([
+        //     'pet_name' => 'unique:pets,pet_name,'.$pet_id.',pet_id',
+        //     // 'user_email' => "required | email | unique:users,email, $request->user_id",
+        //     'pet_registeredDate' => ['after: 01-01-2005'],
+        //     'pet_birthday' => ['after: 01-01-1998']
+        // ],[
+        //     'pet_name.unique' => 'Pet already exists',
+        //     'pet_registeredDate.after' => 'Date must not be before 01-01-2005',
+        //     'pet_birthday.after' => 'Date must not be before 01-01-2005'
+        // ]);
 
         if ($NoActionQuery) {
-            alert()->warning('No changes / all are the same', 'Fail','Update Fail');
+            alert()->message('No changes / all are the same');
             return back();
         }else{
-            DB::table('pets')
-        ->where('pet_id', $pet_id)
-        ->update([
-            'pet_name'=>$request->pet_name,
-            'pet_gender'=>$request->pet_gender,
-            'pet_birthday'=>$request->pet_birthday,
-            'pet_notes'=>$request->pet_notes,
-            'pet_bloodType'=>$request->pet_bloodType,
-            'pet_registeredDate'=>$request->pet_registeredDate,
-            'pet_type_id'=>$request->pet_type_id,
-            'pet_breed_id'=>$request->pet_breed_id,
-            'customer_id'=>$request->customer_id,
-            'clinic_id'=>$request->clinic_id,
-            'pet_isActive'=>$request->pet_isActive
-        ]);
+            if ($name == $existingQuery5 && $bloodtype == $existingQuery && $customer == $existingQuery4) {
+                alert()->warning('Existing Pet');
+                return back();
+            }else{
+                DB::table('pets')
+                ->where('pet_id', $pet_id)
+                ->update([
+                    'pet_name'=>$request->pet_name,
+                    'pet_gender'=>$request->pet_gender,
+                    'pet_birthday'=>$request->pet_birthday,
+                    'pet_notes'=>$request->pet_notes,
+                    'pet_bloodType'=>$request->pet_bloodType,
+                    'pet_registeredDate'=>$request->pet_registeredDate,
+                    'pet_type_id'=>$request->pet_type_id,
+                    'pet_breed_id'=>$request->pet_breed_id,
+                    'customer_id'=>$request->customer_id,
+                    'clinic_id'=>$request->clinic_id,
+                    'pet_isActive'=>$request->pet_isActive
+                ]);
 
-        alert()->success('Pet name updated successfully','Update Successful!');
-        return redirect('/admin/CRUDpet');
+                alert()->success('Pet name updated successfully','Update Successful!');
+                return redirect('/admin/CRUDpet');
+            }
         }
 
     }

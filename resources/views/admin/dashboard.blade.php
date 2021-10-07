@@ -11,7 +11,7 @@
   <div class="card-body">
     <div class="row">
       <div class="col-md-12 col-lg-6 col-xl-4">
-        <div class="card" style="width: 30rem;">
+        <div class="card" >
           <img class="card-img-top" src="{{asset('vendors/dist/img/dogcat2.jpeg') }}" alt="Card image cap">
           <div class="card-body">
             <p class="card-text">Never believe that animals suffer less than humans. Pain is the same for them that it is for us. Even worse, because they cannot help themselves.</p>
@@ -21,7 +21,7 @@
 
 
       <div class="col-md-12 col-lg-6 col-xl-4">
-        <div class="card" style="width: 30rem;">
+        <div class="card" >
           <div class="card-body">
           <img class="card-img-top" src="{{asset('vendors/dist/img/dogcat1.jpeg') }}" alt="Card image cap">
           </div>
@@ -30,7 +30,7 @@
 
 
       <div class="col-md-12 col-lg-6 col-xl-4">
-        <div class="card" style="width: 30rem;">
+        <div class="card" >
         <div class="card-body">
             <p class="card-text">If having a soul means being able to feel love and loyalty and gratitude, then animals are better off than a lot of humans.</p>
           </div>

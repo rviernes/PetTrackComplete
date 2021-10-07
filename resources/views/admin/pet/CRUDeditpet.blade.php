@@ -30,7 +30,7 @@
                 },
                 pet_registeredDate: {
                     required: true,
-                    date: true
+                    date: true,
                 },
                 pet_birthday: {
                     required: true,
@@ -68,7 +68,7 @@
                 },
                 pet_registeredDate: {
                     required:  "Register date is required",
-                    date: "Please enter a date"
+                    date: "Please enter a date",
                 },
                 pet_birthday: {
                     required:  "Birthday is required",
@@ -97,6 +97,8 @@
         font-size: 14px;
     }
 </style>
+
+
 <div class="content-wrapper">
 <br>
    
@@ -114,10 +116,11 @@
     <table class="table table-striped table-hover">
   <thead>
     <tr>
+        <input type="hidden" value="{{ $editPet->pet_id }}" id="getId" name="getId">
         <td >
             <div class="form-group" style="width: auto;">
                 <label for="pet_name">Pet Name</label>
-                <input type="name" class="form-control" value="{{ $editPet->pet_name }}" name="pet_name" placeholder="Enter Pet Name" id="pet_name">
+                <input type="name" class="form-control" value="{{ $editPet->pet_name }}" name="pet_name" placeholder="Enter Pet Name" id="pet_namee">
                 <span class="text-danger error-text customer_fname_error">@error('pet_name'){{ $message }}@enderror</span>
             </div>
         </td>
@@ -190,7 +193,7 @@
             <div class="form-group" style="width: auto;">
                 <label for="pet_registeredDate" required class="form-label"> Registered Date</label>
                 <br>
-                  <input type="date" class="form-control" value="{{ $editPet->pet_registeredDate }}" id="date" name="pet_registeredDate" id="pet_registeredDate">
+                  <input type="date" class="form-control" value="{{ $editPet->pet_registeredDate }}" id="date" name="pet_registeredDate" id="pet_registeredDate" >
                   <span class="text-danger error-text customer_blk_error">@error('pet_registeredDate'){{ $message }}@enderror</span>
               </div>
         </td>
@@ -293,6 +296,22 @@
     setTimeout(function() {
       $("#messageModal").remove();
     }, 3000);
+  });
+</script>
+
+<script>
+  $("#pet_namee").on('change', function (){
+    var value = $(this).val();
+
+    const arr = value.split(" ");
+
+    for(var i = 0; i < arr.length; i++){
+      arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+    }
+    const str2 = arr.join(" ");
+    $("#pet_namee").val(str2);
+    console.log(str2);
+
   });
 </script>
 

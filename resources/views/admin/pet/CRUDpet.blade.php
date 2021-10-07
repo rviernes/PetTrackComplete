@@ -110,7 +110,7 @@
         </div>
           
         <h5>Address: <br><strong> {{ $pet->customer_address }} </strong> </h5><br>
-        <h5>Notes: <br><strong> {{ $pet->pet_notes}} </strong></h5><br>
+        <h5 style="color: blue;">Pet Prescription: <br><strong> {{ $pet->pet_notes}} </strong></h5><br>
 
           <h5 style="text-align: center">
             {!! QrCode::size(150)->generate('name: '.$pet->pet_name.

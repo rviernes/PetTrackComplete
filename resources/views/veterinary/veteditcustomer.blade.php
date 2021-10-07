@@ -268,15 +268,13 @@
                                     <span class="text-danger error-text customer_zip_error">@error('customer_zip'){{ $message }}@enderror</span>
                                 </div>
                             </td>
-                            <td>
-                                <div class="form-group" >
+                                <div class="form-group" hidden>
                                     <label for="inputStatus">User</label>
                                     <select id="isActive" class="form-control custom-select" name="id">
                                         <option value="{{ $vetcust_id->id }}">{{ $vetcust_id->id }}</option>
                                     </select>
                                 </div>
                                 <span class="text-danger error-text user_id_error">@error('user_id'){{ $message }}@enderror</span>
-                            </td>
                             <td>
                                 <div class="form-group" >
                                     <label for="isActive">Active</label>

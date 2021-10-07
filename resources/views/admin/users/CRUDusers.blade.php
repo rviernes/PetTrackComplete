@@ -85,7 +85,7 @@
               </div>
               <form action="" method="get">
                 <div class="modal-body" style="font-weight: bold;">
-                  <h3 style="font-weight: bold;">User Details:
+                  <h3 style="font-weight: bold;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;User Details:
                     <h5>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;Username: {{ $userAccounts->username }}
                       <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;Mobile No.: {{ $userAccounts->user_mobile }}
                       <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;Email: {{ $userAccounts->email }}

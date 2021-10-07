@@ -126,7 +126,7 @@
                                     <h5>Status : <strong> Inactive </strong></h5> 
                                     @endif 
                                     <h5> 
-                                        {!! QrCode::size(150)->eyeColor(0, 255, 255, 255, 0, 0, 0)->generate('name: '.$owner->pet_name. ' Gender: '.$owner->pet_gender. ' Type: '.$owner->type_name. ' Breed: '.$owner->breed_name. ' Registered Date: '. $owner->pet_registeredDate. ' Owner: '.$owner->clinic_name . ' Address: '.$owner->customer_address); !!} <br>
+                                        {!! QrCode::size(150)->generate('name: '.$owner->pet_name. ' Gender: '.$owner->pet_gender. ' Type: '.$owner->type_name. ' Breed: '.$owner->breed_name. ' Registered Date: '. $owner->pet_registeredDate. ' Owner: '.$owner->clinic_name . ' Address: '.$owner->customer_address); !!} <br>
                                         <strong>Scan Me</strong>
                                     </h6>
                                 </div>
