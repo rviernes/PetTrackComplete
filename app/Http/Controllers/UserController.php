@@ -24,7 +24,7 @@ use App\Rules\MatchOldPassword;
 class UserController extends Controller
 {
     function showDashboard(){
-        $petinfo = Pet::get();
+        $petinfo = Pet::paginate(3);
 
         $LoggedUserInfo = DB::table('users')
         ->join('customers','customers.id','=', 'users.id')

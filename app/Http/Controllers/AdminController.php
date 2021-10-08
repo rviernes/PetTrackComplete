@@ -162,7 +162,7 @@ class AdminController extends Controller
     public function userSearch(Request $request){
         $search = $request->get('userSearch');
 
-        $userTypes_name = User::where('username','LIKE','%'.$search.'%')->paginate(8);
+        $userTypes_name = User::where('username','LIKE','%'.$search.'%')->paginate(3);
 
         return view('admin.users.CRUDusers', compact('userTypes_name'));
     }

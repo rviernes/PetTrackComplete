@@ -75,7 +75,7 @@
         </div>
         
 <!-- VIEW MODAL -->
-        <div id="viewModal{{ $userAccounts->id }}" class="modal fade modalFD" role="dialog" style="display:none">
+        <div id="viewModal{{ $userAccounts->id }}" class="modal fade modalFD" role="dialog" style="position: relative">
           <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
@@ -85,11 +85,11 @@
               </div>
               <form action="" method="get">
                 <div class="modal-body" style="font-weight: bold;">
-                  <h3 style="font-weight: bold;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;User Details:
+                  <h3 style="font-weight: bold;">&emsp;&emsp;&emsp;&emsp;User Details:
                     <h5>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;Username: {{ $userAccounts->username }}
-                      <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;Mobile No.: {{ $userAccounts->user_mobile }}
+                      <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;Mobile No.: {{ $userAccounts->phone }}
                       <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;Email: {{ $userAccounts->email }}
-                      <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;User Type: {{ $userAccounts->userType_name }}
+                      <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;User Type: {{ $userAccounts->usertype }}
                     </h5>
                   </h3>
                 </div>

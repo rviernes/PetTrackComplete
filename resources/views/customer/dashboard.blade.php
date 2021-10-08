@@ -64,6 +64,7 @@
                     @endforeach
                     <!-- /.col -->
                 </div>
+        <div style="margin-left: 10px;">{{$petinfo->links('pagination::bootstrap-4') }}</div> 
                 <!-- /.card-footer -->
                 <!-- /.row --> @endsection
                 <!-- jQuery -->
