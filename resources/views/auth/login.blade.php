@@ -3,7 +3,6 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>LogIn</title>
         <!-- Google Font: Source Sans Pro -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
         <!-- Font Awesome -->
@@ -13,91 +12,102 @@
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ asset('vendors/dist/css/adminlte.min.css') }}">
 
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="/fonts/icomoon/style.css">
+
+        <link rel="stylesheet" href="/css/owl.carousel.min.css">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        
+        <!-- Style -->
+        <link rel="stylesheet" href="/css/style.css">
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
         <script>
             function preventBack(){ window.history.forward() };
             setTimeout("preventBack()",.00000);
                 window.onunload=function(){null;}
         </script>
+
+
+        <title>LogIn</title>
     </head>
-  
-        <body class="hold-transition login-page" style="background-image: url('vendors/dist/img/1.png'')">
-            <div class="login-box">
-                <!-- /.login-logo -->
-                <div class="card card-outline card-primary">
-                    <div class="card-header text-center">
-                        <div class="avatar" >
-                            <img src="{{asset('vendors/dist/img/copy.png') }}" width="300px" height="300px" alt="Avatar">
+    <body>
+        <div class="d-lg-flex half">
+            <div class="bg order-1 order-md-2 btnbtn"></div>
+            <div class="contents order-2 order-md-1">
+
+                <div class="container">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-7">
+                            <div class="mb-4">
+                                @if(Session::has('success')) 
+                                    <div class="alert alert-warning" role="alert" id="messageModal">
+                                        {{ Session::get('success') }}
+                                    </div>
+                                @endif 
+                                <h3>Sign In</h3>
+                            </div>
+                                <form action="{{ route('/') }}" method="POST">
+                                    @csrf
+                                    <span class="text-danger" id="messageID">
+                                        @error('email')
+                                            <div class="alert alert-danger" role="alert" id="messageModal">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </span>
+                                    
+                                    <div class="form-group first">
+                                        <label for="username">Email</label>
+                                        <input type="text" class="form-control" id="email" name="email" require>
+                                    </div>
+
+                                    <div class="form-group last">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" name="password" id="password" >
+                                    </div>
+                                    <div class="d-flex mb-5 align-items-center">
+                                        <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
+                                        <input type="checkbox" checked="checked"/>
+                                        <div class="control__indicator"></div>
+                                        </label>
+                                        <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span> 
+                                    </div>
+                                    
+                                    <input type="submit" value="Log In" class="btn btn-block btn-primary">
+                                </form>
+                            
                         </div>
                     </div>
-                    <div class="card-body">
-                        @if(Session::has('success')) 
-                        <div class="alert alert-warning" role="alert" id="messageModal">
-                         {{ Session::get('success') }}
-                       </div>
-                       @endif 
-                        <p class="login-box-msg">Sign in to start your session</p>
-                        <form action="{{ route('/') }}" method="post"> 
-                            @csrf 
-                            <div class="input-group mb-3">
-                            <span class="text-danger">@error('email'){{ $message }}@enderror</span></div>
-                            <div class="input-group mb-3">
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="{{ old('email')}}" require>
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-envelope"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-lock"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="text-danger">@error('password'){{ $message }}@enderror</span>
-
-                            <div class="row">
-                                <div class="col-8">
-                                    <div class="icheck-primary">
-                                        <input type="checkbox" id="remember">
-                                        <label for="remember"> Remember Me </label>
-                                    </div>
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-4">
-                                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                                </div>
-                                <!-- /.col --> 
-                            </div>
-                        </form>
-                        <!-- /.social-auth-links -->
-                        <p class="mb-1">
-                            <a href="" class="text-center">I forgot my password</a>
-                        </p>
-                        <p class="mb-0">
-                            <a href="/register" class="text-center">Register a new account</a>
-                        </p>
-                    </div>
-                    <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
             </div>
-            <!-- /.login-box -->
-            <!-- jQuery -->
-            <script src="{{ asset('vendors/plugins/jquery/jquery.min.js') }}"></script>
-            <!-- Bootstrap 4 -->
-            <script src="{{ asset('vendors/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-            <!-- AdminLTE App -->
-            <script src="{{ asset('vendors/dist/js/adminlte.min.js') }}"></script>
-            <script>
-                $("document").ready(function() {
-                    setTimeout(function() {
-                        $("#messageModal").remove();
-                    }, 2000);
-                });
-            </script>
-        </body>
+        </div>
+
+    </body>
+
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/main2.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js" integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+        <script>
+        $("document").ready(function() {
+            setTimeout(function() {
+            $("#messageID").remove();
+            }, 3000);
+        });
+        </script>
+        <style>
+
+            .btnbtn {
+                background-image: url('vendors/dist/img/halfWP.jpg');
+            }
+        </style>
+
 </html>

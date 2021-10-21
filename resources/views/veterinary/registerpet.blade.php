@@ -203,14 +203,6 @@
                                     <span class="text-danger error-text customer_blk_error">@error('pet_isActive'){{ $message }}@enderror</span>
                                 </div>
                             </td>
-                            <td>
-                                <div class="form-group" id="divForLabels">
-                                    <label for="inputdp"> Profile Picture</label>
-                                    <br>
-                                    <form action="/action_page.php">
-                                        <input type="file" id="image" name="image">
-                                </div>
-                            </td>
                         </tr>
                     </thead>
                 </table>
