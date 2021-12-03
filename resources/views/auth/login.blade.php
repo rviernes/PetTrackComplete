@@ -3,16 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Google Font: Source Sans Pro -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="{{ asset('vendors/plugins/fontawesome-free/css/all.min.css') }}">
-        <!-- icheck bootstrap -->
-        <link rel="stylesheet" href="{{ asset('vendors/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="{{ asset('vendors/dist/css/adminlte.min.css') }}">
 
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" href="/fonts/icomoon/style.css">
 
@@ -26,23 +17,25 @@
         
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-        <script>
+        <!-- <script>
             function preventBack(){ window.history.forward() };
             setTimeout("preventBack()",.00000);
                 window.onunload=function(){null;}
-        </script>
+        </script> -->
 
 
         <title>LogIn</title>
     </head>
     <body>
-        <div class="d-lg-flex half">
-            <div class="bg order-1 order-md-2 btnbtn"></div>
-            <div class="contents order-2 order-md-1">
+        <link rel="stylesheet" type="text/css" href="/styles.css">
+
+        <div class="row no-gutters">
+            <div class="col-md-6 no-gutters">
+                <div class="rightside d-flex justify-content-center align-items-center">
 
                 <div class="container">
                     <div class="row align-items-center justify-content-center">
-                        <div class="col-md-7">
+                        <div class="col-md-7" style=" border-radius: 30px; padding: 50px;">
                             <div class="mb-4">
                                 @if(Session::has('success')) 
                                     <div class="alert alert-warning" role="alert" id="messageModal">
@@ -79,14 +72,21 @@
                                     </div>
                                     
                                     <input type="submit" value="Log In" class="btn btn-block btn-primary">
+                                    <span>Don't have an account?</span>
+                                    <a href="register">Sign up here!</a>
                                 </form>
                             
                         </div>
                     </div>
                 </div>
+                </div>
+            </div>
+            <div class="col-md-6 no-gutters">
+                <div class="leftside d-flex justify-content-center align-items-center">
+                    <div class="" id="pet_name_id">{{ __('Login') }}</div>
+                </div>
             </div>
         </div>
-
     </body>
 
         <script src="js/jquery-3.3.1.min.js"></script>

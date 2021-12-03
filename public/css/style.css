@@ -143,13 +143,7 @@ h2 {
   width: 20px;
   background: #e6e6e6;
   border-radius: 4px; }
-
-.control--radio .control__indicator {
-  border-radius: 50%; }
-
-.control:hover input ~ .control__indicator,
-.control input:focus ~ .control__indicator {
-  background: #ccc; }
+  .jp
 
 .control input:checked ~ .control__indicator {
   background: #007bff; }
